@@ -66,3 +66,6 @@ venv/
 
 #keys
 djDevf/settings/keys.py
+
+#database
+djDevf/db.sqlite3
