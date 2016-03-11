@@ -63,3 +63,6 @@ target/
 
 #virtual env
 venv/
+
+#keys
+djDevf/settings/keys.py
