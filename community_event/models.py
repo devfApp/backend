@@ -18,6 +18,7 @@ class Event(models.Model):
     place = models.CharField(max_length=50)
     date_added = models.DateField(auto_now_add=True, blank=False)
     event_date = models.DateTimeField(blank=False)
+    event_link = models.URLField(blank=False)
 
     def __str__(self):
     	return self.title
