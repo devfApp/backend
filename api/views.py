@@ -11,7 +11,7 @@ from .serializers import *
 #Event Views
 class EventView(generics.ListCreateAPIView):
 	queryset = Event.objects.all()
-	serializer_class = DefaultEventSerializer
+	serializer_class = EventSerializer
 
 #Batch Views
 class BatchView(generics.ListCreateAPIView):

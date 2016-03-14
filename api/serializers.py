@@ -9,7 +9,8 @@ from user.models import *
 class DefaultEventSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Event
-		fields = ['id', 'title', 'description', 'place', 'date_added', 'event_date', 'event_link',]
+		fields = ['id', 'title', 'description', 'place', 'date_added', 'event_date',
+			'event_link',]
 
 class DefaultUserSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -23,8 +24,8 @@ class DefaultMyUserSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = MyUser
-		fields = ['id', 'user', 'user_id', 'date_added', 'profile_pic', 'is_validated', 'phone_number', 
-			'job', 'description',]
+		fields = ['id', 'user', 'user_id', 'date_added', 'profile_pic', 'is_validated',
+			 'phone_number', 'job', 'description',]
 		read_only_fields=['user',]
 		write_only_fields=['user_id',]
 
@@ -40,4 +41,16 @@ class DefaultSkillSerializer(serializers.ModelSerializer):
 
 #Event Serializer
 class EventSerializer(serializers.ModelSerializer):
-	class 
+
+	added_by=DefaultMyUserSerializer(many=False, read_only=True)
+	skill=DefaultSkillSerializer(many=True)
+
+	added_by_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=MyUser.objects.all())
+
+	class Meta:
+		model = Event
+		fields = ['id', 'title', 'description', 'place', 'date_added', 'event_date', 
+			'event_link', 'added_by', 'added_by_id', 'skill']
+		read_only_fields=['added_by']
+		write_only_fields=['added_by_id',]
+
