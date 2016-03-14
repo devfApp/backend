@@ -37,6 +37,8 @@ class MyUser(models.Model):
 
     #Relations
     user = models.OneToOneField(User, related_name='user')
+    batch = models.ManyToManyField(Batch)
+    skills = models.ManyToManyField(Skill)
 
     #Attributes
     date_added = models.DateTimeField(auto_now_add=True)
@@ -46,8 +48,6 @@ class MyUser(models.Model):
     phone_number = models.CharField(validators=[phone_regex], blank=True, max_length=13) # validators should be a list
     job = models.CharField(max_length=50, blank=True)
     description = models.TextField(blank=True, max_length=140)
-    batch = models.ManyToManyField(Batch)
-    skills = models.ManyToManyField(Skill)
 
     def __str__(self):
     	return (self.user.username)

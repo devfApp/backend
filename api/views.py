@@ -11,3 +11,7 @@ from .serializers import *
 class EventView(generics.ListCreateAPIView):
 	queryset = Event.objects.all()
 	serializer_class = DefaultEventSerializer
+
+class UserView(generics.ListCreateAPIView):
+	queryset = MyUser.objects.all()
+	serializer_class = DefaultUserSerializer
