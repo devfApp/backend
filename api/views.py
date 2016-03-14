@@ -13,6 +13,10 @@ class EventView(generics.ListCreateAPIView):
 	queryset = Event.objects.all()
 	serializer_class = EventSerializer
 
+class EventDetailView(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Event.objects.all()
+	serializer_class = EventSerializer
+
 #Batch Views
 class BatchView(generics.ListCreateAPIView):
 	queryset=Batch.objects.all()

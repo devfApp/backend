@@ -10,7 +10,7 @@ class Event(models.Model):
 
     #Relations
     added_by = models.ForeignKey(MyUser, blank=False)
-    skill = models.ManyToManyField(Skill, blank=False)
+    skill = models.ManyToManyField(Skill, blank=True, related_name='skills')
 
     #Attributes
     title = models.CharField(max_length=20, blank=False)

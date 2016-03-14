@@ -45,12 +45,13 @@ class EventSerializer(serializers.ModelSerializer):
 	added_by=DefaultMyUserSerializer(many=False, read_only=True)
 	skill=DefaultSkillSerializer(many=True)
 
-	added_by_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=MyUser.objects.all())
+	added_by_id=serializers.PrimaryKeyRelatedField(write_only=True, 
+		queryset=MyUser.objects.all(), source='added_by')
 
 	class Meta:
 		model = Event
 		fields = ['id', 'title', 'description', 'place', 'date_added', 'event_date', 
 			'event_link', 'added_by', 'added_by_id', 'skill']
-		read_only_fields=['added_by']
+		read_only_fields=['added_by',]
 		write_only_fields=['added_by_id',]
 
