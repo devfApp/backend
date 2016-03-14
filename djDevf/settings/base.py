@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     # Apps
     'user',
     'community_event',
+
+    #API
+    'rest_framework',
 ]
 
 MIDDLEWARE_CLASSES = [
