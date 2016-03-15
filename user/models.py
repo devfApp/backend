@@ -38,7 +38,7 @@ class MyUser(models.Model):
     #Relations
     user = models.OneToOneField(User, related_name='user')
     batch = models.ManyToManyField(Batch, related_name='my_users')
-    skill = models.ManyToManyField(Skill, blank=True, related_name='users')
+    skill = models.ManyToManyField(Skill, blank=True, related_name='my_users')
 
     #Attributes
     date_added = models.DateTimeField(auto_now_add=True)
