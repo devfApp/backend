@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     # Apps
     'user',
     'community_event',
+    'shared_files'
 ]
 
 MIDDLEWARE_CLASSES = [
