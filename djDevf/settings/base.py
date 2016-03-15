@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     # Apps
     'user',
     'community_event',
-    'shared_files'
+    'shared_files',
 
     #API
     'rest_framework',
