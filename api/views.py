@@ -20,18 +20,22 @@ class EventDetailView(generics.RetrieveUpdateDestroyAPIView):
 #Batch Views
 class BatchView(generics.ListCreateAPIView):
 	queryset=Batch.objects.all()
-	serializer_class=DefaultBatchSerializer
+	serializer_class=BatchSerializer
 
 #Skill Views
 class SkillView(generics.ListCreateAPIView):
 	queryset=Skill.objects.all()
-	serializer_class=DefaultSkillSerializer
+	serializer_class=SkillSerializer
+
+class SkillDetailView(generics.RetrieveUpdateDestroyAPIView):
+	queryset=Skill.objects.all()
+	serializer_class=SkillSerializer
 
 #MyUse Views
 class MyUserView(generics.ListCreateAPIView):
 	queryset = MyUser.objects.all()
-	serializer_class = DefaultMyUserSerializer
+	serializer_class = MyUserSerializer
 
 class MyUserDetailView(generics.RetrieveUpdateDestroyAPIView):
 	queryset = MyUser.objects.all()
-	serializer_class = DefaultMyUserSerializer
+	serializer_class = MyUserSerializer

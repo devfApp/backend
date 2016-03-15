@@ -18,16 +18,11 @@ class DefaultUserSerializer(serializers.ModelSerializer):
 		fields = ['id', 'username', 'first_name', 'last_name', 'email']
 
 class DefaultMyUserSerializer(serializers.ModelSerializer):
-	user = DefaultUserSerializer(many=False, read_only=True)
-
-	user_id = serializers.PrimaryKeyRelatedField(write_only=True, queryset=User.objects.all())
-
 	class Meta:
 		model = MyUser
-		fields = ['id', 'user', 'user_id', 'date_added', 'profile_pic', 'is_validated',
+		fields = ['id', 'date_added', 'profile_pic', 'is_validated',
 			 'phone_number', 'job', 'description',]
-		read_only_fields=['user',]
-		write_only_fields=['user_id',]
+
 
 class DefaultBatchSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -43,7 +38,7 @@ class DefaultSkillSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
 
 	added_by=DefaultMyUserSerializer(many=False, read_only=True)
-	skill=DefaultSkillSerializer(many=True)
+	# skill=DefaultSkillSerializer(many=True)
 
 	added_by_id=serializers.PrimaryKeyRelatedField(write_only=True, 
 		queryset=MyUser.objects.all(), source='added_by')
@@ -55,3 +50,34 @@ class EventSerializer(serializers.ModelSerializer):
 		read_only_fields=['added_by',]
 		write_only_fields=['added_by_id',]
 
+class MyUserSerializer(serializers.ModelSerializer):
+	user=DefaultUserSerializer(many=False, read_only=True)
+	skill=DefaultSkillSerializer(many=True)
+	batch=DefaultBatchSerializer(many=True)
+
+	user_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=User.objects.all(),
+		source='user')
+
+
+	class Meta:
+		model=MyUser
+		fields = ['id', 'user', 'user_id', 'date_added', 'profile_pic', 'is_validated',
+			 'phone_number', 'job', 'description', 'skill', 'batch']
+		read_only_fields=['user',]
+		write_only_fields=['user_id']
+
+class SkillSerializer(serializers.ModelSerializer):
+
+	events=serializers.StringRelatedField(many=True)
+
+	class Meta:
+		model=Skill
+		fields=['id', 'skill', 'events']
+
+class BatchSerializer(serializers.ModelSerializer):
+
+	my_users = MyUserSerializer(many=True)
+
+	class Meta:
+		model=Batch
+		fields=['id', 'batch', 'my_users']

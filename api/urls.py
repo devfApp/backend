@@ -11,7 +11,8 @@ urlpatterns = [
 	url(r'batch/$', api_view.BatchView.as_view()),
 
 	#Skill urls
-	url(r'skill/$', api_view.SkillView.as_view()),
+	url(r'skill/$', api_view.SkillView.as_view(), name='skill_api'),
+	url(r'skill/(?P<pk>[0-9]+)/$', api_view.SkillDetailView.as_view(), name='skill_api_detail'),
 
 	#MyUser urls
 	url(r'user/$', api_view.MyUserView.as_view()),
