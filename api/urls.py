@@ -18,4 +18,6 @@ urlpatterns = [
 	url(r'user/$', api_view.MyUserView.as_view()),
 	url(r'user/(?P<pk>[0-9]+)/$', api_view.MyUserDetailView.as_view(), name='user_api_detail'),
 
+	#DOCS
+	url(r'docs/', include('rest_framework_swagger.urls'))
 ]

@@ -88,7 +88,7 @@ class EventSerializer(serializers.ModelSerializer):
 class SkillSerializer(serializers.ModelSerializer):
 	"""SKILL object list and create object with relations"""
 
-	events=serializers.StringRelatedField(many=True)
+	events=DefaultEventSerializer(many=True)
 
 	class Meta:
 		model=Skill
@@ -98,7 +98,7 @@ class SkillSerializer(serializers.ModelSerializer):
 class BatchSerializer(serializers.ModelSerializer):
 	"""BATCH object list and create object with relations"""
 
-	my_users = MyUserSerializer(many=True)
+	my_users = DefaultMyUserSerializer(many=True)
 
 	class Meta:
 		model=Batch
