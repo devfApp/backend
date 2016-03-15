@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from user.models import *
 from community_event.models import *
 from user.models import *
+from shared_files.models import *
 
 #Default Serializers
 """
@@ -46,6 +47,11 @@ class DefaultSkillSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Skill
 		fields=['id', 'skill']
+
+class DefaultFileSerializer(serializers.ModelSerializer):
+	class Meta:
+		model=File
+		fields=['id', 'title', 'description', 'file_link', 'date']
 
 """
 Aquí comienzan los seriealizers con ATRIBUTOS y RELACIONES
@@ -107,3 +113,14 @@ class BatchSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Batch
 		fields=['id', 'batch', 'my_users']
+
+#File Serializer
+class FileSerializer(serializers.ModelSerializer):
+	"""FILE object list and create object with relations"""
+
+	added_by=DefaultMyUserSerializer(many=False)
+	skill=DefaultSkillSerializer(many=True)
+
+	class Meta:
+		model=File
+		fields=['id', 'title', 'description', 'file_link', 'date', 'added_by', 'skill']

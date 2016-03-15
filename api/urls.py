@@ -19,6 +19,10 @@ urlpatterns = [
 	url(r'user/$', api_view.MyUserView.as_view(), name='user_api'),
 	url(r'user/(?P<pk>[0-9]+)/$', api_view.MyUserDetailView.as_view(), name='user_api_detail'),
 
+	#Files urls
+	url(r'file/$', api_view.FileView.as_view(), name='file_api'),
+	url(r'file/(?P<pk>[0-9]+)/$', api_view.FileDetailView.as_view(), name='file_api_detail'),
+
 	#DOCS
-	url(r'docs/', include('rest_framework_swagger.urls'))
+	url(r'docs/', include('rest_framework_swagger.urls')),
 ]

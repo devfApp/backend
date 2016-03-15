@@ -75,3 +75,19 @@ class MyUserDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 	queryset = MyUser.objects.all()
 	serializer_class = MyUserSerializer
+
+class FileView(generics.ListCreateAPIView):
+	"""
+	FILE object list and create object
+	"""
+
+	queryset=File.objects.all()
+	serializer_class=FileSerializer
+
+class FileDetailView(generics.RetrieveUpdateDestroyAPIView):
+	"""
+	FILE object view and edit
+	"""
+
+	queryset=File.objects.all()
+	serializer_class=FileSerializer
