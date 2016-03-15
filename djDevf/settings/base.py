@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'user',
     'community_event',
     'shared_files',
+    'sensei_stuff',
 
     #API
     'rest_framework',
