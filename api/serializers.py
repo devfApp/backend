@@ -33,7 +33,6 @@ class DefaultMyUserSerializer(serializers.ModelSerializer):
 		fields = ['id', 'user', 'date_added', 'profile_pic', 'is_validated',
 			 'phone_number', 'job', 'description',]
 
-
 class DefaultBatchSerializer(serializers.ModelSerializer):
 	"""Default list for BATCH without its relations"""
 
@@ -47,6 +46,10 @@ class DefaultSkillSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Skill
 		fields=['id', 'skill']
+
+"""
+Aquí comienzan los seriealizers con ATRIBUTOS y RELACIONES
+"""
 
 #MyUser Serializer
 class MyUserSerializer(serializers.ModelSerializer):
@@ -89,10 +92,11 @@ class SkillSerializer(serializers.ModelSerializer):
 	"""SKILL object list and create object with relations"""
 
 	events=DefaultEventSerializer(many=True)
+	my_users=DefaultMyUserSerializer(many=True)
 
 	class Meta:
 		model=Skill
-		fields=['id', 'skill', 'events']
+		fields=['id', 'skill', 'events', 'my_users']
 
 #Batch Serializers
 class BatchSerializer(serializers.ModelSerializer):
