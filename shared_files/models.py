@@ -9,7 +9,7 @@ class File(models.Model):
         verbose_name_plural = "Files"
 
     #Relations
-    added_by = models.ForeignKey(MyUser, related_name='shared_files')
+    added_by = models.ForeignKey(MyUser, blank=False, related_name='shared_files')
     skill = models.ManyToManyField(Skill, related_name='shared_files')
 
     #Attributes

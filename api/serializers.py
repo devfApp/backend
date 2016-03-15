@@ -97,30 +97,38 @@ class EventSerializer(serializers.ModelSerializer):
 class SkillSerializer(serializers.ModelSerializer):
 	"""SKILL object list and create object with relations"""
 
-	events=DefaultEventSerializer(many=True)
-	my_users=DefaultMyUserSerializer(many=True)
+	events=DefaultEventSerializer(many=True, read_only=True)
+	my_users=DefaultMyUserSerializer(many=True, read_only=True)
 
 	class Meta:
 		model=Skill
 		fields=['id', 'skill', 'events', 'my_users']
+		read_only_fields=['events', 'my_users']
 
 #Batch Serializers
 class BatchSerializer(serializers.ModelSerializer):
 	"""BATCH object list and create object with relations"""
 
-	my_users = DefaultMyUserSerializer(many=True)
+	my_users = DefaultMyUserSerializer(many=True, read_only=True)
 
 	class Meta:
 		model=Batch
 		fields=['id', 'batch', 'my_users']
+		read_only_fields=['my_users']
 
 #File Serializer
 class FileSerializer(serializers.ModelSerializer):
 	"""FILE object list and create object with relations"""
 
-	added_by=DefaultMyUserSerializer(many=False)
+	added_by=DefaultMyUserSerializer(many=False, read_only=True)
 	skill=DefaultSkillSerializer(many=True)
+
+	added_by_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=MyUser.objects.all(), 
+		source='added_by')
 
 	class Meta:
 		model=File
-		fields=['id', 'title', 'description', 'file_link', 'date', 'added_by', 'skill']
+		fields=['id', 'title', 'description', 'file_link', 'date', 'added_by', 'added_by_id',
+			'skill']
+		read_only_fields=['added_by']
+		write_only_fields=['added_by_id']
