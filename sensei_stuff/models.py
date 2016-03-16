@@ -2,6 +2,7 @@ from django.db import models
 from user.models import *
 
 # Create your models here.
+
 class Challenge(models.Model):
 
     class Meta:
@@ -9,15 +10,27 @@ class Challenge(models.Model):
         verbose_name_plural = "Challenges"
 
     #Relations
-    sensei = models.ForeignKey(MyUser)
+    sensei = models.ForeignKey(MyUser, related_name='sensei')
     batch = models.ForeignKey(Batch)
+    completed_user = models.ManyToManyField(MyUser, related_name='users')
 
     #Attributes
     title = models.CharField(max_length=20, blank=False)
     description = models.TextField(max_length=140, blank=True)
     demo_link = models.URLField(blank=True)
-    # completed_user = models.ManyToManyField(MyUser)
 
     def __str__(self):
         return self.title
     
+class Answer(models.Model):
+
+    class Meta:
+        verbose_name = "Answer"
+        verbose_name_plural = "Answers"
+
+    challenge=models.OneToOneField(Challenge)
+    file_link = models.URLField(blank=False)
+
+    def __str__(self):
+        return 'Answer ' + self.challenge.title
+        
