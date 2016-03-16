@@ -16,6 +16,7 @@ class Challenge(models.Model):
     title = models.CharField(max_length=20, blank=False)
     description = models.TextField(max_length=140, blank=True)
     demo_link = models.URLField(blank=True)
+    # completed_user = models.ManyToManyField(MyUser)
 
     def __str__(self):
         return self.title
