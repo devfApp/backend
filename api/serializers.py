@@ -57,7 +57,7 @@ class DefaultFileSerializer(serializers.ModelSerializer):
 class DefaultChallengeSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Challenge
-		fields=['id', 'title', 'description', 'demo_link']
+		fields=['id', 'title', 'description', 'demo_link', 'date']
 
 class DefaultAnswerSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -168,7 +168,7 @@ class ChallengeSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model=Challenge
-		fields=['id', 'title', 'description', 'demo_link', 'sensei', 'sensei_id', 'batch', 
+		fields=['id', 'title', 'description', 'demo_link', 'date', 'sensei', 'sensei_id', 'batch', 
 			'batch_id', 'answers']
 		read_only_fields=['answers', 'sensei', 'batch']
 		write_only_fields=['sensei_id', 'batch_id']

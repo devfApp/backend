@@ -96,6 +96,7 @@ class FileView(generics.ListCreateAPIView):
 
 	queryset=File.objects.all()
 	serializer_class=FileSerializer
+	#Filters
 	filter_backends=(filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
 	filter_fields=['title', 'added_by_id', 'date']
 	search_fields=['title', 'added_by__user__username', 'date', 'skill__skill']
@@ -134,6 +135,11 @@ class FileDetailView(generics.RetrieveUpdateDestroyAPIView):
 class ChallengeView(generics.ListCreateAPIView):
 	queryset=Challenge.objects.all()
 	serializer_class=ChallengeSerializer
+	#Filters
+	filter_backends=[filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+	filter_fields=['sensei_id', 'title', 'batch_id']
+	search_fields='__all__'
+	ordering=['-date']
 
 class ChallengeDetailView(generics.RetrieveUpdateDestroyAPIView):
 	queryset=Challenge.objects.all()
