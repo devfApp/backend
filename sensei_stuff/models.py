@@ -12,7 +12,6 @@ class Challenge(models.Model):
     #Relations
     sensei = models.ForeignKey(MyUser, related_name='sensei')
     batch = models.ForeignKey(Batch)
-    # completed_user = models.ManyToManyField(MyUser, related_name='users')
 
     #Attributes
     title = models.CharField(max_length=20, blank=False)
@@ -28,7 +27,7 @@ class Answer(models.Model):
         verbose_name = "Answer"
         verbose_name_plural = "Answers"
     #Relations
-    user=models.ForeignKey(MyUser)
+    user=models.ForeignKey(MyUser, related_name='my_user')
     challenge=models.ForeignKey(Challenge, related_name='answers')
 
     #Attributes

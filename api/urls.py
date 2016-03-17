@@ -26,7 +26,8 @@ urlpatterns = [
 	#Challenge urls
 	url(r'challenge/$', api_view.ChallengeView.as_view(), name='challenge_api'),
 	url(r'challenge/(?P<pk>[0-9]+)/$', api_view.ChallengeDetailView.as_view(), name='challenge_api_detail'),
-	url(r'challenge/(?P<pk>[0-9]+)/answer/$', api_view.AnswerView.as_view(), name='challenge_answer_api'),
+
+	url(r'answer/$', api_view.AnswerView.as_view(), name='answer_api'),
 
 	#DOCS
 	url(r'docs/', include('rest_framework_swagger.urls')),
