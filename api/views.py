@@ -21,6 +21,11 @@ class EventView(generics.ListCreateAPIView):
 
 	queryset = Event.objects.all()
 	serializer_class = EventSerializer
+	#Filter
+	filter_backends=[filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+	filter_fields=['added_by_id', 'event_date']
+	search_fields=['title', 'place', 'event_date', 'skill__skill']
+	ordering=['-event_date']
 
 class EventDetailView(generics.RetrieveUpdateDestroyAPIView):
 	"""
