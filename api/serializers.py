@@ -149,12 +149,16 @@ class FileSerializer(serializers.ModelSerializer):
 class ChallengeSerializer(serializers.ModelSerializer):
 	sensei = DefaultMyUserSerializer(many=False, read_only=True)
 	answers = DefaultAnswerSerializer(many=True, read_only=True)
+	batch = DefaultBatchSerializer(many=False, read_only=True)
 
 	sensei_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=MyUser.objects.all(), 
 		source='sensei')
+	batch_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=Batch.objects.all(),
+		source='batch')
 
 	class Meta:
 		model=Challenge
-		fields=['id', 'title', 'description', 'demo_link', 'sensei', 'sensei_id', 'answers']
-		read_only_fields=['answers', 'sensei']
-		write_only_fields=['sensei_id']
+		fields=['id', 'title', 'description', 'demo_link', 'sensei', 'sensei_id', 'batch', 
+			'batch_id', 'answers']
+		read_only_fields=['answers', 'sensei', 'batch']
+		write_only_fields=['sensei_id', 'batch_id']
