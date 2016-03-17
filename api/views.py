@@ -143,7 +143,7 @@ class ChallengeView(generics.ListCreateAPIView):
 	#Filters
 	filter_backends=[filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
 	filter_fields=['sensei_id', 'title', 'batch_id']
-	search_fields='__all__'
+	search_fields=['title', 'date', ]
 	ordering=['-date']
 
 class ChallengeDetailView(generics.RetrieveUpdateDestroyAPIView):
