@@ -5,6 +5,7 @@ from user.models import *
 from community_event.models import *
 from user.models import *
 from shared_files.models import *
+from sensei_stuff.models import *
 
 #Default Serializers
 """
@@ -52,6 +53,17 @@ class DefaultFileSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=File
 		fields=['id', 'title', 'description', 'file_link', 'date']
+
+class DefaultChallengeSerializer(serializers.ModelSerializer):
+	class Meta:
+		model=Challenge
+		fields=['id', 'title', 'description', 'demo_link']
+
+class DefaultAnswerSerializer(serializers.ModelSerializer):
+	class Meta:
+		model=Answer
+		fields=['id', 'file_link']
+
 
 """
 Aquí comienzan los seriealizers con ATRIBUTOS y RELACIONES
@@ -132,3 +144,17 @@ class FileSerializer(serializers.ModelSerializer):
 			'skill']
 		read_only_fields=['added_by']
 		write_only_fields=['added_by_id']
+
+#Challenge Serializer
+class ChallengeSerializer(serializers.ModelSerializer):
+	sensei = DefaultMyUserSerializer(many=False, read_only=True)
+	answers = DefaultAnswerSerializer(many=True, read_only=True)
+
+	sensei_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=MyUser.objects.all(), 
+		source='sensei')
+
+	class Meta:
+		model=Challenge
+		fields=['id', 'title', 'description', 'demo_link', 'sensei', 'sensei_id', 'answers']
+		read_only_fields=['answers', 'sensei']
+		write_only_fields=['sensei_id']

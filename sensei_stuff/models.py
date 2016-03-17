@@ -12,7 +12,7 @@ class Challenge(models.Model):
     #Relations
     sensei = models.ForeignKey(MyUser, related_name='sensei')
     batch = models.ForeignKey(Batch)
-    completed_user = models.ManyToManyField(MyUser, related_name='users')
+    # completed_user = models.ManyToManyField(MyUser, related_name='users')
 
     #Attributes
     title = models.CharField(max_length=20, blank=False)
@@ -27,9 +27,13 @@ class Answer(models.Model):
     class Meta:
         verbose_name = "Answer"
         verbose_name_plural = "Answers"
+    #Relations
+    user=models.ForeignKey(MyUser)
+    challenge=models.ForeignKey(Challenge, related_name='answers')
 
-    challenge=models.OneToOneField(Challenge)
-    file_link = models.URLField(blank=False)
+    #Attributes
+    file_link=models.URLField(blank=False)
+    date_added=models.DateField(auto_now_add=True)
 
     def __str__(self):
         return 'Answer ' + self.challenge.title

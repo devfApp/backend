@@ -8,6 +8,7 @@ from django.http import Http404
 from .serializers import *
 
 # Create your views here.
+
 #Event Views
 class EventView(generics.ListCreateAPIView):
 	"""
@@ -59,7 +60,7 @@ class SkillDetailView(generics.RetrieveUpdateDestroyAPIView):
 	queryset=Skill.objects.all()
 	serializer_class=SkillSerializer
 
-#MyUse Views
+#MyUser Views
 class MyUserView(generics.ListCreateAPIView):
 	"""
 	MYUSER object list and create object
@@ -76,6 +77,7 @@ class MyUserDetailView(generics.RetrieveUpdateDestroyAPIView):
 	queryset = MyUser.objects.all()
 	serializer_class = MyUserSerializer
 
+# File views
 class FileView(generics.ListCreateAPIView):
 	"""
 	FILE object list and create object
@@ -91,3 +93,17 @@ class FileDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 	queryset=File.objects.all()
 	serializer_class=FileSerializer
+
+#Challenge views
+class ChallengeView(generics.ListCreateAPIView):
+	queryset=Challenge.objects.all()
+	serializer_class=ChallengeSerializer
+
+class ChallengeDetailView(generics.RetrieveUpdateDestroyAPIView):
+	queryset=Challenge.objects.all()
+	serializer_class=ChallengeSerializer
+
+#Answer views
+class AnswerView(generics.ListCreateAPIView):
+	queryset=Answer.objects.all()
+	serializer_class=DefaultAnswerSerializer
