@@ -157,7 +157,7 @@ class AnswerView(generics.ListCreateAPIView):
 	#Filters
 	filter_backends=[filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
 	filter_fields=['user_id', 'challenge_id']
-	search_fields='__all__'
+	search_fields=['date_added', 'user__user__username']
 	ordering=['-date_added']
 
 class AnswerDetailView(generics.RetrieveUpdateDestroyAPIView):
