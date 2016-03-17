@@ -150,10 +150,18 @@ class FileSerializer(serializers.ModelSerializer):
 class AnswerSerializer(serializers.ModelSerializer):
 
 	user = DefaultMyUserSerializer(many=False, read_only=True)
+	challenge = DefaultChallengeSerializer(many=False, read_only=True)
+
+	user_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=MyUser.objects.all(),
+		source='user')
+	challenge_id=serializers.PrimaryKeyRelatedField(write_only=True, 
+		queryset=Challenge.objects.all(), source='challenge')
 
 	class Meta:
 		model=Answer
-		fields=['id', 'file_link', 'user']
+		fields=['id', 'file_link', 'date_added', 'user', 'user_id', 'challenge', 'challenge_id']
+		read_only_fields=['user', 'challenge']
+		write_only_fields=['user_id', 'challenge_id']
 
 #Challenge Serializer
 class ChallengeSerializer(serializers.ModelSerializer):
