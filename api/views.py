@@ -149,6 +149,11 @@ class ChallengeDetailView(generics.RetrieveUpdateDestroyAPIView):
 class AnswerView(generics.ListCreateAPIView):
 	queryset=Answer.objects.all()
 	serializer_class=AnswerSerializer
+	#Filters
+	filter_backends=[filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+	filter_fields=['user_id', 'challenge_id']
+	search_fields='__all__'
+	ordering=['-date_added']
 
 class AnswerDetailView(generics.RetrieveUpdateDestroyAPIView):
 	queryset=Answer.objects.all()
