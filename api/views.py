@@ -96,8 +96,10 @@ class FileView(generics.ListCreateAPIView):
 
 	queryset=File.objects.all()
 	serializer_class=FileSerializer
-	filter_backends=(filters.DjangoFilterBackend,)
+	filter_backends=(filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
 	filter_fields=['title', 'added_by_id', 'date']
+	search_fields=['title', 'added_by__user__username', 'date', 'skill__skill']
+	ordering=['-date']
 
 class FileDetailView(generics.RetrieveUpdateDestroyAPIView):
 	"""
