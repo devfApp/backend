@@ -23,6 +23,13 @@ urlpatterns = [
 	url(r'file/$', api_view.FileView.as_view(), name='file_api'),
 	url(r'file/(?P<pk>[0-9]+)/$', api_view.FileDetailView.as_view(), name='file_api_detail'),
 
+	#Challenge urls
+	url(r'challenge/$', api_view.ChallengeView.as_view(), name='challenge_api'),
+	url(r'challenge/(?P<pk>[0-9]+)/$', api_view.ChallengeDetailView.as_view(), name='challenge_api_detail'),
+
+	url(r'answer/$', api_view.AnswerView.as_view(), name='answer_api'),
+	url(r'answer/(?P<pk>[0-9]+)/$', api_view.AnswerDetailView.as_view(), name='answer_api_detail'),
+
 	#DOCS
 	url(r'docs/', include('rest_framework_swagger.urls')),
 ]

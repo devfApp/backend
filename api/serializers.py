@@ -5,6 +5,7 @@ from user.models import *
 from community_event.models import *
 from user.models import *
 from shared_files.models import *
+from sensei_stuff.models import *
 
 #Default Serializers
 """
@@ -53,6 +54,17 @@ class DefaultFileSerializer(serializers.ModelSerializer):
 		model=File
 		fields=['id', 'title', 'description', 'file_link', 'date']
 
+class DefaultChallengeSerializer(serializers.ModelSerializer):
+	class Meta:
+		model=Challenge
+		fields=['id', 'title', 'description', 'demo_link', 'date']
+
+class DefaultAnswerSerializer(serializers.ModelSerializer):
+	class Meta:
+		model=Answer
+		fields=['id', 'file_link']
+
+
 """
 Aquí comienzan los seriealizers con ATRIBUTOS y RELACIONES
 """
@@ -99,10 +111,11 @@ class SkillSerializer(serializers.ModelSerializer):
 
 	events=DefaultEventSerializer(many=True, read_only=True)
 	my_users=DefaultMyUserSerializer(many=True, read_only=True)
+	shared_files=DefaultFileSerializer(many=True, read_only=True)
 
 	class Meta:
 		model=Skill
-		fields=['id', 'skill', 'events', 'my_users']
+		fields=['id', 'skill', 'events', 'my_users', 'shared_files']
 		read_only_fields=['events', 'my_users']
 
 #Batch Serializers
@@ -121,7 +134,7 @@ class FileSerializer(serializers.ModelSerializer):
 	"""FILE object list and create object with relations"""
 
 	added_by=DefaultMyUserSerializer(many=False, read_only=True)
-	skill=DefaultSkillSerializer(many=True)
+	skill=DefaultSkillSerializer(many=True, read_only=True)
 
 	added_by_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=MyUser.objects.all(), 
 		source='added_by')
@@ -132,3 +145,38 @@ class FileSerializer(serializers.ModelSerializer):
 			'skill']
 		read_only_fields=['added_by']
 		write_only_fields=['added_by_id']
+
+#Answer Serializer
+class AnswerSerializer(serializers.ModelSerializer):
+
+	user = DefaultMyUserSerializer(many=False, read_only=True)
+	challenge = DefaultChallengeSerializer(many=False, read_only=True)
+
+	user_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=MyUser.objects.all(),
+		source='user')
+	challenge_id=serializers.PrimaryKeyRelatedField(write_only=True, 
+		queryset=Challenge.objects.all(), source='challenge')
+
+	class Meta:
+		model=Answer
+		fields=['id', 'file_link', 'date_added', 'user', 'user_id', 'challenge', 'challenge_id']
+		read_only_fields=['user', 'challenge']
+		write_only_fields=['user_id', 'challenge_id']
+
+#Challenge Serializer
+class ChallengeSerializer(serializers.ModelSerializer):
+	sensei = DefaultMyUserSerializer(many=False, read_only=True)
+	answers = AnswerSerializer(many=True, read_only=True)
+	batch = DefaultBatchSerializer(many=False, read_only=True)
+
+	sensei_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=MyUser.objects.all(), 
+		source='sensei')
+	batch_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=Batch.objects.all(),
+		source='batch')
+
+	class Meta:
+		model=Challenge
+		fields=['id', 'title', 'description', 'demo_link', 'date', 'sensei', 'sensei_id', 'batch', 
+			'batch_id', 'answers']
+		read_only_fields=['answers', 'sensei', 'batch']
+		write_only_fields=['sensei_id', 'batch_id']

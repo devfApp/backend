@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'user',
     'community_event',
     'shared_files',
+    'sensei_stuff',
 
     #API
     'rest_framework',
@@ -78,6 +79,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'djDevf.wsgi.application'
 
+REST_FRAMEWORK = {
+   # 'DEFAULT_AUTHENTICATION_CLASSES': (
+       # 'rest_framework.authentication.BasicAuthentication',
+   #     'rest_framework.authentication.SessionAuthentication',
+   #     'rest_framework.authentication.TokenAuthentication',
+   # ),
+   # 'DEFAULT_PERMISSION_CLASSES': (
+   #     'rest_framework.permissions.IsAuthenticated',
+   #     # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+   # ),
+   'DEFAULT_FILTER_BACKENDS': (
+       'rest_framework.filters.DjangoFilterBackend',
+   ),
+   'SEARCH_PARAM': 'q',
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
