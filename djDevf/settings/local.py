@@ -15,7 +15,7 @@ DEBUG = True
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql.psycopg2',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'd2mjs5kgl18go2',
         'USER': 'uteqffkoqsvrlh',
         'PASSWORD': 'gFSY0nnebfpkSBtEksbvC9SwTc',
