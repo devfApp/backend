@@ -26,4 +26,4 @@ urlpatterns = [
 ]
 
 urlpatterns += staticfiles_urlpatterns()
-urlpatterns += static(settings.local.MEDIA_URL, document_root=settings.local.MEDIA_ROOT)
+urlpatterns += static(settings.deployment.MEDIA_URL, document_root=settings.deployment.MEDIA_ROOT)
