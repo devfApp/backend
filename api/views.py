@@ -86,6 +86,16 @@ class MyUserDetailView(generics.RetrieveUpdateDestroyAPIView):
 	queryset = MyUser.objects.all()
 	serializer_class = MyUserSerializer
 
+#User views
+class UserView(generics.CreateAPIView):
+	"""
+	USER object list and create object
+	"""
+
+	queryset=User.objects.all()
+	serializer_class=DefaultUserSerializer
+
+
 # File views
 class FileView(generics.ListCreateAPIView):
 	"""
@@ -98,7 +108,6 @@ class FileView(generics.ListCreateAPIView):
 	# 	"""
 	# 	user = self.request.user
 	# 	return File.objects.filter(id=user.id)
-
 	queryset=File.objects.all()
 	serializer_class=FileSerializer
 	#Filters
@@ -138,20 +147,33 @@ class FileDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 #Challenge views
 class ChallengeView(generics.ListCreateAPIView):
+	"""
+	CHALLENGE object list and create object
+	"""
+
 	queryset=Challenge.objects.all()
 	serializer_class=ChallengeSerializer
 	#Filters
 	filter_backends=[filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
 	filter_fields=['sensei_id', 'title', 'batch_id']
 	search_fields=['title', 'date', ]
-	ordering=['-date']
+	ordering=['-date']	
 
 class ChallengeDetailView(generics.RetrieveUpdateDestroyAPIView):
+	"""
+	CHALLENGE object view and edit
+	"""
+
+
 	queryset=Challenge.objects.all()
 	serializer_class=ChallengeSerializer
 
 #Answer views
 class AnswerView(generics.ListCreateAPIView):
+	"""
+	ANSWER object list and create object
+	"""
+
 	queryset=Answer.objects.all()
 	serializer_class=AnswerSerializer
 	#Filters
@@ -161,5 +183,9 @@ class AnswerView(generics.ListCreateAPIView):
 	ordering=['-date_added']
 
 class AnswerDetailView(generics.RetrieveUpdateDestroyAPIView):
+	"""
+	ANSWER object view and edit
+	"""
+
 	queryset=Answer.objects.all()
 	serializer_class=AnswerSerializer
