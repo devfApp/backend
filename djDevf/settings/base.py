@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+# from .keys import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,10 +21,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '(#o@k!5a1$)*jrfevryxict9#di2ujhyal9v3w+xc5=4hg$k)$'
+# SECRET_KEY = djangoKey
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = '(#o@k!5a1$)*jrfevryxict9#di2ujhyal9v3w+xc5=4hg$k)$'
 
 ALLOWED_HOSTS = []
 
@@ -37,6 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Apps
+    'user',
+    'community_event',
+    'shared_files',
+    'sensei_stuff',
+
+    #API
+    'rest_framework',
+    'rest_framework_swagger',
+
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -70,17 +81,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'djDevf.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+REST_FRAMEWORK = {
+   # 'DEFAULT_AUTHENTICATION_CLASSES': (
+       # 'rest_framework.authentication.BasicAuthentication',
+   #     'rest_framework.authentication.SessionAuthentication',
+   #     'rest_framework.authentication.TokenAuthentication',
+   # ),
+   # 'DEFAULT_PERMISSION_CLASSES': (
+   #     'rest_framework.permissions.IsAuthenticated',
+   #     # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+   # ),
+   'DEFAULT_FILTER_BACKENDS': (
+       'rest_framework.filters.DjangoFilterBackend',
+   ),
+   'SEARCH_PARAM': 'q',
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -115,7 +130,5 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
-
-STATIC_URL = '/static/'
+#Whitenoise
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
