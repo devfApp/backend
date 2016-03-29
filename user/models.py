@@ -3,6 +3,22 @@ from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
     
 # Create your models here.
+class Cinta(models.Model):
+
+    class Meta:
+        verbose_name = "Cinta"
+        verbose_name_plural = "Cintas"
+
+    #Relations
+
+    #Attributes
+    is_active=models.BooleanField(blank=False)
+    name=models.CharField(max_length=50, blank=False)
+
+    def __str__(self):
+        return self.name
+    
+
 class Skill(models.Model):
 
     class Meta:
@@ -37,6 +53,7 @@ class MyUser(models.Model):
     #Relations
     user = models.OneToOneField(User, related_name='user')
     batch = models.ManyToManyField(Batch, related_name='my_users')
+    cinta = models.ManyToManyField(Cinta, related_name='my_users')
     skill = models.ManyToManyField(Skill, blank=True, related_name='my_users')
 
     #Attributes
