@@ -22,7 +22,10 @@ from api import urls as api_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/v1/', include(api_urls, namespace='api'))
+
+    #API
+    url(r'^api/v1/', include(api_urls, namespace='api')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
