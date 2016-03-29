@@ -24,7 +24,8 @@ class DefaultUserSerializer(serializers.ModelSerializer):
 	"""Default list for USER without its relations"""
 	class Meta:
 		model = User
-		fields = ['id', 'username', 'first_name', 'last_name', 'email']
+		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password']
+		write_only_fields=['password']
 
 class DefaultMyUserSerializer(serializers.ModelSerializer):
 	"""Default list for MYUSER without its relations"""
