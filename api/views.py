@@ -6,12 +6,8 @@ from rest_framework.response import Response
 from rest_framework import generics, status, filters, permissions
 from django.http import Http404
 from .serializers import *
-from django.contrib.auth.models import User
 
 # Create your views here.
-
-def get_current_user():
-	current_user = getattr(_thread_locals, USER_ATTR_NAME, None)
 
 #Event Views
 class EventView(generics.ListCreateAPIView):
