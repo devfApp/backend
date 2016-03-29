@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-from .keys import *
+# from .keys import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,7 +21,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = djangoKey
+# SECRET_KEY = djangoKey
+
+SECRET_KEY = '(#o@k!5a1$)*jrfevryxict9#di2ujhyal9v3w+xc5=4hg$k)$'
 
 ALLOWED_HOSTS = []
 
@@ -127,3 +129,6 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+#Whitenoise
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
