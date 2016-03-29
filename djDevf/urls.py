@@ -17,13 +17,16 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from . import settings
+from .settings import deployment
 from api import urls as api_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/v1/', include(api_urls, namespace='api'))
+
+    #API
+    url(r'^api/v1/', include(api_urls, namespace='api')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
-urlpatterns += static(settings.deployment.MEDIA_URL, document_root=settings.deployment.MEDIA_ROOT)
+urlpatterns += static(deployment.MEDIA_URL, document_root=deployment.MEDIA_ROOT)
