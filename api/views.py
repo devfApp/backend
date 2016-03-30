@@ -89,7 +89,7 @@ class UserView(generics.CreateAPIView):
 	"""
 
 	queryset=User.objects.all()
-	serializer_class=DefaultUserSerializer
+	serializer_class=UserRegisterSerializer
 
 
 # File views

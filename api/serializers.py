@@ -24,8 +24,7 @@ class DefaultUserSerializer(serializers.ModelSerializer):
 	"""Default list for USER without its relations"""
 	class Meta:
 		model = User
-		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password']
-		write_only_fields=['password']
+		fields = ['id', 'username', 'first_name', 'last_name', 'email']
 
 class DefaultMyUserSerializer(serializers.ModelSerializer):
 	"""Default list for MYUSER without its relations"""
@@ -69,6 +68,12 @@ class DefaultAnswerSerializer(serializers.ModelSerializer):
 """
 Aquí comienzan los seriealizers con ATRIBUTOS y RELACIONES
 """
+
+class UserRegisterSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = User
+		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password']
+		write_only_fields=['password']
 
 #MyUser Serializer
 class MyUserSerializer(serializers.ModelSerializer):
