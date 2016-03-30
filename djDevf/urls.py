@@ -26,6 +26,7 @@ urlpatterns = [
     #API
     url(r'^api/v1/', include(api_urls, namespace='api')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^token/', include('tokenapi.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

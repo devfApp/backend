@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
     'rest_framework.authtoken',
+    'tokenapi',
 
 ]
 
@@ -114,6 +115,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend', 
+  'tokenapi.backends.TokenBackend')
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
