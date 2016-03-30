@@ -186,3 +186,9 @@ class ChallengeSerializer(serializers.ModelSerializer):
 			'batch_id', 'answers']
 		read_only_fields=['answers', 'sensei', 'batch']
 		write_only_fields=['sensei_id', 'batch_id']
+
+def jwt_response_payload_handler(token, user=None, request=None):
+    return {
+        'token': token,
+        'user': DefaultUserSerializer(user).data
+    }
