@@ -160,7 +160,6 @@ class ChallengeDetailView(generics.RetrieveUpdateDestroyAPIView):
 	CHALLENGE object view and edit
 	"""
 
-
 	queryset=Challenge.objects.all()
 	serializer_class=ChallengeSerializer
 

@@ -5,7 +5,8 @@ from rest_framework.authtoken import views as token_view
 urlpatterns = [
 
 	#Token url
-	url(r'api-token-auth/', token_view.obtain_auth_token),
+	# url(r'api-token-auth/', token_view.obtain_auth_token),
+	url(r'api-token-auth/', 'rest_framework_jwt.views.obtain_jwt_token'),
 
 	#Events urls
 	url(r'event/$', api_view.EventView.as_view(), name='event_api'),
