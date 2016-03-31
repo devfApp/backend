@@ -119,7 +119,9 @@ AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',
   'tokenapi.backends.TokenBackend')
 
 JWT_AUTH = {
-  'JWT_RESPONSE_PAYLOAD_HANDLER':'api.serializers.jwt_response_payload_handler'
+  'JWT_RESPONSE_PAYLOAD_HANDLER':'api.serializers.jwt_response_payload_handler',
+  'JWT_VERIFY_EXPIRATION': False,
+  'JWT_AUTH_HEADER_PREFIX': 'Token',
 }
 
 # Internationalization
