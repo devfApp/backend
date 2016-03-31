@@ -83,14 +83,14 @@ class MyUserDetailView(generics.RetrieveUpdateDestroyAPIView):
 	serializer_class = MyUserSerializer
 
 #User views
-class UserView(generics.CreateAPIView):
+class UserRegisterView(generics.CreateAPIView):
 	"""
 	USER object list and create object
 	"""
 
 	queryset=User.objects.all()
 	serializer_class=UserRegisterSerializer
-
+	permission_classes = [permissions.AllowAny]
 
 # File views
 class FileView(generics.ListCreateAPIView):

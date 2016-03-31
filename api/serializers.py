@@ -32,7 +32,7 @@ class DefaultMyUserSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = MyUser
-		fields = ['id', 'user', 'date_added', 'profile_pic', 'is_validated',
+		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'date_added', 'profile_pic', 'is_validated',
 			 'phone_number', 'job', 'description',]
 
 class DefaultBatchSerializer(serializers.ModelSerializer):
@@ -71,25 +71,34 @@ Aquí comienzan los seriealizers con ATRIBUTOS y RELACIONES
 
 class UserRegisterSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = User
+		model = MyUser
 		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password']
 		write_only_fields=['password']
+
+	def create(self, validate_data):
+		my_user = MyUser.objects.create(
+				username = validate_data['username'],
+				email = validate_data['email'],
+				first_name = validate_data['first_name'],
+				last_name = validate_data['last_name'])
+		my_user.set_password(validate_data['password'])
+		my_user.save()
+		return my_user
+
 
 #MyUser Serializer
 class MyUserSerializer(serializers.ModelSerializer):
 	"""MYUSER object list and create object with relations"""
 
-	user=DefaultUserSerializer(many=False, read_only=True)
 	skill=DefaultSkillSerializer(many=True)
 	batch=DefaultBatchSerializer(many=True)
 
 	user_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=User.objects.all(),
 		source='user')
 
-
 	class Meta:
 		model=MyUser
-		fields = ['id', 'user', 'user_id', 'date_added', 'profile_pic', 'is_validated',
+		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'user_id', 'date_added', 'profile_pic', 'is_validated',
 			 'phone_number', 'job', 'description', 'skill', 'batch']
 		read_only_fields=['user',]
 		write_only_fields=['user_id']
