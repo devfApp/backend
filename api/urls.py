@@ -5,7 +5,8 @@ from rest_framework.authtoken import views as token_view
 urlpatterns = [
 
 	#Token url
-	url(r'api-token-auth/', token_view.obtain_auth_token),
+	# url(r'api-token-auth/', token_view.obtain_auth_token),
+	url(r'api-token-auth/', 'rest_framework_jwt.views.obtain_jwt_token'),
 
 	#Events urls
 	url(r'event/$', api_view.EventView.as_view(), name='event_api'),
@@ -20,7 +21,7 @@ urlpatterns = [
 	url(r'skill/(?P<pk>[0-9]+)/$', api_view.SkillDetailView.as_view(), name='skill_api_detail'),
 
 	#User urls
-	url(r'user/$', api_view.UserView.as_view(), name='user_api'),
+	url(r'user/$', api_view.UserRegisterView.as_view(), name='user_api'),
 
 	#MyUser urls
 	url(r'user/my/$', api_view.MyUserView.as_view(), name='myuser_api'),
@@ -34,8 +35,13 @@ urlpatterns = [
 	url(r'challenge/$', api_view.ChallengeView.as_view(), name='challenge_api'),
 	url(r'challenge/(?P<pk>[0-9]+)/$', api_view.ChallengeDetailView.as_view(), name='challenge_api_detail'),
 
+	#Answer urls
 	url(r'answer/$', api_view.AnswerView.as_view(), name='answer_api'),
 	url(r'answer/(?P<pk>[0-9]+)/$', api_view.AnswerDetailView.as_view(), name='answer_api_detail'),
+
+	#Cinta urls
+	url(r'cinta/$', api_view.CintaView.as_view(), name='cinta_api'),
+	url(r'cinta/(?P<pk>[0-9]+)/$', api_view.CintaDetailView.as_view(), name='cinta_api'),
 
 	#DOCS
 	url(r'docs/', include('rest_framework_swagger.urls')),

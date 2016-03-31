@@ -3,6 +3,8 @@ from .base import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+SECRET_KEY = '(#o@k!5a1$)*jrfevryxict9#di2ujhyal9v3w+xc5=4hg$k)$'
+
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 

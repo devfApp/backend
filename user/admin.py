@@ -5,3 +5,4 @@ from .models import *
 admin.site.register(MyUser)
 admin.site.register(Skill)
 admin.site.register(Batch)
+admin.site.register(Cinta)

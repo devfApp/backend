@@ -3,6 +3,22 @@ from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
     
 # Create your models here.
+class Cinta(models.Model):
+
+    class Meta:
+        verbose_name = "Cinta"
+        verbose_name_plural = "Cintas"
+
+    #Relations
+
+    #Attributes
+    is_active=models.BooleanField(blank=False)
+    name=models.CharField(max_length=50, blank=False)
+
+    def __str__(self):
+        return self.name
+    
+
 class Skill(models.Model):
 
     class Meta:
@@ -28,15 +44,16 @@ class Batch(models.Model):
     	return self.batch
     
 
-class MyUser(models.Model):
+class MyUser(User):
 
     class Meta:
         verbose_name = "MyUser"
         verbose_name_plural = "MyUser"
 
     #Relations
-    user = models.OneToOneField(User, related_name='user')
+    # user = models.OneToOneField(User, related_name='user')
     batch = models.ManyToManyField(Batch, related_name='my_users')
+    cinta = models.ManyToManyField(Cinta, related_name='my_users')
     skill = models.ManyToManyField(Skill, blank=True, related_name='my_users')
 
     #Attributes
@@ -47,7 +64,7 @@ class MyUser(models.Model):
     phone_number = models.CharField(validators=[phone_regex], blank=True, max_length=13) # validators should be a list
     job = models.CharField(max_length=50, blank=True)
     description = models.TextField(blank=True, max_length=140)
-    user_type = models.CharField(max_length=50, choices=[('1' ,'alumni'),('2', 'sensei'), ('3', 'admin')])
+    user_type = models.CharField(max_length=50, choices=[('alumni' ,'alumni'),('sensei', 'sensei'), ('admin', 'admin')])
 
     def __str__(self):
-    	return (self.user.username)
+    	return (self.username)

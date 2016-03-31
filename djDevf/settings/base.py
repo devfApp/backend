@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-# from .keys import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,9 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = djangoKey
 
-SECRET_KEY = '(#o@k!5a1$)*jrfevryxict9#di2ujhyal9v3w+xc5=4hg$k)$'
+SECRET_KEY = os.environ.get("S_KEY")
 
 ALLOWED_HOSTS = []
 
@@ -48,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
     'rest_framework.authtoken',
+    'tokenapi',
 
 ]
 
@@ -86,7 +85,7 @@ REST_FRAMEWORK = {
    'DEFAULT_AUTHENTICATION_CLASSES': (
        'rest_framework.authentication.BasicAuthentication',
        'rest_framework.authentication.SessionAuthentication',
-       'rest_framework.authentication.TokenAuthentication',
+       'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
    ),
    'DEFAULT_PERMISSION_CLASSES': (
        'rest_framework.permissions.IsAuthenticated',
@@ -116,6 +115,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend', 
+  'tokenapi.backends.TokenBackend')
+
+JWT_AUTH = {
+  'JWT_RESPONSE_PAYLOAD_HANDLER':'api.serializers.jwt_response_payload_handler',
+  'JWT_VERIFY_EXPIRATION': False,
+  'JWT_AUTH_HEADER_PREFIX': 'Token',
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

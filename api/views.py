@@ -83,14 +83,14 @@ class MyUserDetailView(generics.RetrieveUpdateDestroyAPIView):
 	serializer_class = MyUserSerializer
 
 #User views
-class UserView(generics.CreateAPIView):
+class UserRegisterView(generics.CreateAPIView):
 	"""
 	USER object list and create object
 	"""
 
 	queryset=User.objects.all()
-	serializer_class=DefaultUserSerializer
-
+	serializer_class=UserRegisterSerializer
+	permission_classes = [permissions.AllowAny]
 
 # File views
 class FileView(generics.ListCreateAPIView):
@@ -160,7 +160,6 @@ class ChallengeDetailView(generics.RetrieveUpdateDestroyAPIView):
 	CHALLENGE object view and edit
 	"""
 
-
 	queryset=Challenge.objects.all()
 	serializer_class=ChallengeSerializer
 
@@ -185,3 +184,19 @@ class AnswerDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 	queryset=Answer.objects.all()
 	serializer_class=AnswerSerializer
+
+class CintaView(generics.ListCreateAPIView):
+	"""
+	CINTA object list and create object
+	"""
+
+	queryset=Cinta.objects.all()
+	serializer_class=CintaSerializer
+
+class CintaDetailView(generics.RetrieveUpdateDestroyAPIView):
+	"""
+	CINTA object view and edit
+	"""
+
+	queryset=Cinta.objects.all()
+	serializer_class=CintaSerializer
