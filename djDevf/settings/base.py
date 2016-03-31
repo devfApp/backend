@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'community_event',
     'shared_files',
     'sensei_stuff',
+    'notification',
 
     #API
     'rest_framework',
