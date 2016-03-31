@@ -102,7 +102,7 @@ class EventSerializer(serializers.ModelSerializer):
 	"""EVENT object list and create object with relations"""
 
 	added_by=DefaultMyUserSerializer(many=False, read_only=True)
-	skill=DefaultSkillSerializer(many=True)
+	skill=DefaultSkillSerializer(many=True, read_only=True)
 
 	added_by_id=serializers.PrimaryKeyRelatedField(write_only=True, 
 		queryset=MyUser.objects.all(), source='added_by')
@@ -175,7 +175,7 @@ class AnswerSerializer(serializers.ModelSerializer):
 #Challenge Serializer
 class ChallengeSerializer(serializers.ModelSerializer):
 	sensei = DefaultMyUserSerializer(many=False, read_only=True)
-	answers = AnswerSerializer(many=True, read_only=True)
+	answers = DefaultAnswerSerializer(many=True, read_only=True)
 	batch = DefaultBatchSerializer(many=False, read_only=True)
 
 	sensei_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=MyUser.objects.all(), 
