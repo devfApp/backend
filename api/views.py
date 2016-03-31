@@ -89,7 +89,7 @@ class UserView(generics.CreateAPIView):
 	"""
 
 	queryset=User.objects.all()
-	serializer_class=DefaultUserSerializer
+	serializer_class=UserRegisterSerializer
 
 
 # File views
@@ -159,7 +159,6 @@ class ChallengeDetailView(generics.RetrieveUpdateDestroyAPIView):
 	"""
 	CHALLENGE object view and edit
 	"""
-
 
 	queryset=Challenge.objects.all()
 	serializer_class=ChallengeSerializer
