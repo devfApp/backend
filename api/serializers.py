@@ -28,12 +28,11 @@ class DefaultUserSerializer(serializers.ModelSerializer):
 
 class DefaultMyUserSerializer(serializers.ModelSerializer):
 	"""Default list for MYUSER without its relations"""
-	user = DefaultUserSerializer(many=False)
 
 	class Meta:
 		model = MyUser
 		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'date_added', 'profile_pic', 'is_validated',
-			 'phone_number', 'job', 'description',]
+			 'phone_number', 'job', 'description', 'user_type']
 
 class DefaultBatchSerializer(serializers.ModelSerializer):
 	"""Default list for BATCH without its relations"""
@@ -99,7 +98,7 @@ class MyUserSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=MyUser
 		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'user_id', 'date_added', 'profile_pic', 'is_validated',
-			 'phone_number', 'job', 'description', 'skill', 'batch']
+			 'phone_number', 'job', 'description', 'skill', 'batch', 'user_type']
 		read_only_fields=['user',]
 		write_only_fields=['user_id']
 
