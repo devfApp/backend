@@ -71,4 +71,4 @@ djDevf/settings/keys.py
 djDevf/db.sqlite3
 
 #migrations
-migrations/
+#migrations/
