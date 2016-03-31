@@ -35,8 +35,13 @@ urlpatterns = [
 	url(r'challenge/$', api_view.ChallengeView.as_view(), name='challenge_api'),
 	url(r'challenge/(?P<pk>[0-9]+)/$', api_view.ChallengeDetailView.as_view(), name='challenge_api_detail'),
 
+	#Answer urls
 	url(r'answer/$', api_view.AnswerView.as_view(), name='answer_api'),
 	url(r'answer/(?P<pk>[0-9]+)/$', api_view.AnswerDetailView.as_view(), name='answer_api_detail'),
+
+	#Cinta urls
+	url(r'cinta/$', api_view.CintaView.as_view(), name='cinta_api'),
+	url(r'cinta/(?P<pk>[0-9]+)/$', api_view.CintaDetailView.as_view(), name='cinta_api'),
 
 	#DOCS
 	url(r'docs/', include('rest_framework_swagger.urls')),

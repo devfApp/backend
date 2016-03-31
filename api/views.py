@@ -184,3 +184,19 @@ class AnswerDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 	queryset=Answer.objects.all()
 	serializer_class=AnswerSerializer
+
+class CintaView(generics.ListCreateAPIView):
+	"""
+	CINTA object list and create object
+	"""
+
+	queryset=Cinta.objects.all()
+	serializer_class=CintaSerializer
+
+class CintaDetailView(generics.RetrieveUpdateDestroyAPIView):
+	"""
+	CINTA object view and edit
+	"""
+
+	queryset=Cinta.objects.all()
+	serializer_class=CintaSerializer

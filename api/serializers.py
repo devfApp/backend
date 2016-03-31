@@ -31,8 +31,8 @@ class DefaultMyUserSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = MyUser
-		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'date_added', 'profile_pic', 'is_validated',
-			 'phone_number', 'job', 'description', 'user_type']
+		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'date_added', 
+		'profile_pic', 'is_validated', 'phone_number', 'job', 'description', 'user_type']
 
 class DefaultBatchSerializer(serializers.ModelSerializer):
 	"""Default list for BATCH without its relations"""
@@ -63,6 +63,10 @@ class DefaultAnswerSerializer(serializers.ModelSerializer):
 		model=Answer
 		fields=['id', 'file_link']
 
+class DefaultCintaSerializer(serializers.ModelSerializer):
+	class Meta:
+		model=Cinta
+		fields=['id', 'is_active', 'name']
 
 """
 Aquí comienzan los seriealizers con ATRIBUTOS y RELACIONES
@@ -91,11 +95,13 @@ class MyUserSerializer(serializers.ModelSerializer):
 
 	skill=DefaultSkillSerializer(many=True)
 	batch=DefaultBatchSerializer(many=True)
+	cinta=DefaultCintaSerializer(many=True)
 
 	class Meta:
 		model=MyUser
-		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'date_added', 'profile_pic', 'is_validated',
-			 'phone_number', 'job', 'description', 'skill', 'batch', 'user_type']
+		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'date_added', 
+		'profile_pic', 'is_validated','phone_number', 'job', 'description', 'skill', 
+		'batch', 'cinta', 'user_type']
 
 #Event Serializer
 class EventSerializer(serializers.ModelSerializer):
@@ -189,6 +195,13 @@ class ChallengeSerializer(serializers.ModelSerializer):
 			'batch_id', 'answers']
 		read_only_fields=['answers', 'sensei', 'batch']
 		write_only_fields=['sensei_id', 'batch_id']
+
+class CintaSerializer(serializers.ModelSerializer):
+	my_users = DefaultMyUserSerializer(many=True, read_only=True)
+
+	class Meta:
+		model=Cinta
+		fields=['id', 'is_active', 'name', 'my_users']
 
 def jwt_response_payload_handler(token, my_user=None, request=None):
     return {
