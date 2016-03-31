@@ -44,14 +44,14 @@ class Batch(models.Model):
     	return self.batch
     
 
-class MyUser(models.Model):
+class MyUser(User):
 
     class Meta:
         verbose_name = "MyUser"
         verbose_name_plural = "MyUser"
 
     #Relations
-    user = models.OneToOneField(User, related_name='user')
+    # user = models.OneToOneField(User, related_name='user')
     batch = models.ManyToManyField(Batch, related_name='my_users')
     cinta = models.ManyToManyField(Cinta, related_name='my_users')
     skill = models.ManyToManyField(Skill, blank=True, related_name='my_users')
@@ -67,4 +67,4 @@ class MyUser(models.Model):
     user_type = models.CharField(max_length=50, choices=[('1' ,'alumni'),('2', 'sensei'), ('3', 'admin')])
 
     def __str__(self):
-    	return (self.user.username)
+    	return (self.username)
