@@ -28,12 +28,11 @@ class DefaultUserSerializer(serializers.ModelSerializer):
 
 class DefaultMyUserSerializer(serializers.ModelSerializer):
 	"""Default list for MYUSER without its relations"""
-	user = DefaultUserSerializer(many=False)
 
 	class Meta:
 		model = MyUser
-		fields = ['id', 'user', 'date_added', 'profile_pic', 'is_validated',
-			 'phone_number', 'job', 'description',]
+		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'date_added', 'profile_pic', 'is_validated',
+			 'phone_number', 'job', 'description', 'user_type']
 
 class DefaultBatchSerializer(serializers.ModelSerializer):
 	"""Default list for BATCH without its relations"""
@@ -71,28 +70,32 @@ Aquí comienzan los seriealizers con ATRIBUTOS y RELACIONES
 
 class UserRegisterSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = User
+		model = MyUser
 		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password']
 		write_only_fields=['password']
+
+	def create(self, validate_data):
+		my_user = MyUser.objects.create(
+				username = validate_data['username'],
+				email = validate_data['email'],
+				first_name = validate_data['first_name'],
+				last_name = validate_data['last_name'])
+		my_user.set_password(validate_data['password'])
+		my_user.save()
+		return my_user
+
 
 #MyUser Serializer
 class MyUserSerializer(serializers.ModelSerializer):
 	"""MYUSER object list and create object with relations"""
 
-	user=DefaultUserSerializer(many=False, read_only=True)
 	skill=DefaultSkillSerializer(many=True)
 	batch=DefaultBatchSerializer(many=True)
 
-	user_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=User.objects.all(),
-		source='user')
-
-
 	class Meta:
 		model=MyUser
-		fields = ['id', 'user', 'user_id', 'date_added', 'profile_pic', 'is_validated',
-			 'phone_number', 'job', 'description', 'skill', 'batch']
-		read_only_fields=['user',]
-		write_only_fields=['user_id']
+		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'date_added', 'profile_pic', 'is_validated',
+			 'phone_number', 'job', 'description', 'skill', 'batch', 'user_type']
 
 #Event Serializer
 class EventSerializer(serializers.ModelSerializer):
@@ -155,19 +158,19 @@ class FileSerializer(serializers.ModelSerializer):
 #Answer Serializer
 class AnswerSerializer(serializers.ModelSerializer):
 
-	user = DefaultMyUserSerializer(many=False, read_only=True)
+	my_user = DefaultMyUserSerializer(many=False, read_only=True)
 	challenge = DefaultChallengeSerializer(many=False, read_only=True)
 
-	user_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=MyUser.objects.all(),
+	my_user_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=MyUser.objects.all(),
 		source='user')
 	challenge_id=serializers.PrimaryKeyRelatedField(write_only=True, 
 		queryset=Challenge.objects.all(), source='challenge')
 
 	class Meta:
 		model=Answer
-		fields=['id', 'file_link', 'date_added', 'user', 'user_id', 'challenge', 'challenge_id']
-		read_only_fields=['user', 'challenge']
-		write_only_fields=['user_id', 'challenge_id']
+		fields=['id', 'file_link', 'date_added', 'my_user', 'my_user_id', 'challenge', 'challenge_id']
+		read_only_fields=['my_user', 'challenge']
+		write_only_fields=['my_user_id', 'challenge_id']
 
 #Challenge Serializer
 class ChallengeSerializer(serializers.ModelSerializer):
@@ -187,8 +190,8 @@ class ChallengeSerializer(serializers.ModelSerializer):
 		read_only_fields=['answers', 'sensei', 'batch']
 		write_only_fields=['sensei_id', 'batch_id']
 
-def jwt_response_payload_handler(token, user=None, request=None):
+def jwt_response_payload_handler(token, my_user=None, request=None):
     return {
         'token': token,
-        'user': DefaultUserSerializer(user).data
+        'my_user': DefaultUserSerializer(my_user).data
     }

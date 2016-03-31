@@ -21,7 +21,7 @@ urlpatterns = [
 	url(r'skill/(?P<pk>[0-9]+)/$', api_view.SkillDetailView.as_view(), name='skill_api_detail'),
 
 	#User urls
-	url(r'user/$', api_view.UserView.as_view(), name='user_api'),
+	url(r'user/$', api_view.UserRegisterView.as_view(), name='user_api'),
 
 	#MyUser urls
 	url(r'user/my/$', api_view.MyUserView.as_view(), name='myuser_api'),

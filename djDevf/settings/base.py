@@ -118,14 +118,10 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend', 
   'tokenapi.backends.TokenBackend')
 
-def jwt_response_payload_handler(token, user=None, request=None):
-    return {
-        'token': token,
-        'user': UserSerializer(user).data
-    }
-
 JWT_AUTH = {
-  'JWT_RESPONSE_PAYLOAD_HANDLER':'api.serializers.jwt_response_payload_handler'
+  'JWT_RESPONSE_PAYLOAD_HANDLER':'api.serializers.jwt_response_payload_handler',
+  'JWT_VERIFY_EXPIRATION': False,
+  'JWT_AUTH_HEADER_PREFIX': 'Token',
 }
 
 # Internationalization
