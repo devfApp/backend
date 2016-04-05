@@ -13,6 +13,9 @@ from .serializers import *
 class EventView(generics.ListCreateAPIView):
 	"""
 	EVENT object list and create object
+	FILTERS --> added_by_id, event_date
+	SEARCH --> title, place, event_date, skill__skill
+	DEFAULT ORDER --> Descending event_date
 	"""
 
 	queryset = Event.objects.all()
@@ -96,6 +99,9 @@ class UserRegisterView(generics.CreateAPIView):
 class FileView(generics.ListCreateAPIView):
 	"""
 	FILE object list and create object
+	FILTERS --> title, added_by_id, date
+	SEARCH --> added_by__username, date, skill__skill
+	DEFAULT ORDER --> Descending date
 	"""
 
 	# def get_queryset(self):
@@ -109,7 +115,7 @@ class FileView(generics.ListCreateAPIView):
 	#Filters
 	filter_backends=(filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
 	filter_fields=['title', 'added_by_id', 'date']
-	search_fields=['title', 'added_by__user__username', 'date', 'skill__skill']
+	search_fields=['title', 'added_by__username', 'date', 'skill__skill']
 	ordering=['-date']
 
 class FileDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -145,6 +151,9 @@ class FileDetailView(generics.RetrieveUpdateDestroyAPIView):
 class ChallengeView(generics.ListCreateAPIView):
 	"""
 	CHALLENGE object list and create object
+	FILTERS --> sensei_id, title, batch_id
+	SEARCH --> title, date
+	DEFAULT ORDER --> Descending date
 	"""
 
 	queryset=Challenge.objects.all()
@@ -167,6 +176,9 @@ class ChallengeDetailView(generics.RetrieveUpdateDestroyAPIView):
 class AnswerView(generics.ListCreateAPIView):
 	"""
 	ANSWER object list and create object
+	FILTERS --> user_id, challenge_id
+	SEARCH --> date_added, user__username
+	DEFAULT ORDER --> Descending date_added
 	"""
 
 	queryset=Answer.objects.all()
@@ -174,7 +186,7 @@ class AnswerView(generics.ListCreateAPIView):
 	#Filters
 	filter_backends=[filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
 	filter_fields=['user_id', 'challenge_id']
-	search_fields=['date_added', 'user__user__username']
+	search_fields=['date_added', 'user__username']
 	ordering=['-date_added']
 
 class AnswerDetailView(generics.RetrieveUpdateDestroyAPIView):
