@@ -154,7 +154,7 @@ class FileSerializer(serializers.ModelSerializer):
 	"""FILE object list and create object with relations"""
 
 	added_by=DefaultMyUserSerializer(many=False, read_only=True)
-	skill=DefaultSkillSerializer(many=True, read_only=True)
+	skill=DefaultSkillSerializer(many=True)
 
 	added_by_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=MyUser.objects.all(), 
 		source='added_by')
