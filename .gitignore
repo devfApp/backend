@@ -63,6 +63,7 @@ target/
 
 #virtual env
 venv/
+venv2.7/
 
 #keys
 djDevf/settings/keys.py
