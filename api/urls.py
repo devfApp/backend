@@ -7,7 +7,7 @@ urlpatterns = [
 
 	#Token url
 	# url(r'api-token-auth/', token_view.obtain_auth_token),
-	url(r'api-token-auth/', jwt_views.obtain_jwt_token),
+	url(r'api-token-auth', jwt_views.obtain_jwt_token),
 
 	#Events urls
 	url(r'event/$', api_view.EventView.as_view(), name='event_api'),
