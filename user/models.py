@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
     
 # Create your models here.
+
+USER_TYPE = [('alumni' ,'alumni'),('sensei', 'sensei'), ('admin', 'admin')]
+
 class Cinta(models.Model):
 
     class Meta:
@@ -64,7 +67,7 @@ class MyUser(User):
     phone_number = models.CharField(validators=[phone_regex], blank=True, max_length=13) # validators should be a list
     job = models.CharField(max_length=50, blank=True)
     description = models.TextField(blank=True, max_length=140)
-    user_type = models.CharField(max_length=50, choices=[('alumni' ,'alumni'),('sensei', 'sensei'), ('admin', 'admin')])
+    user_type = models.CharField(blank=True ,max_length=50, choices=USER_TYPE)
 
     def __str__(self):
     	return (self.username)

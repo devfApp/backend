@@ -93,24 +93,29 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 class MyUserSerializer(serializers.ModelSerializer):
 	"""MYUSER object list and create object with relations"""
 
-	skill=DefaultSkillSerializer(many=True)
-	batch=DefaultBatchSerializer(many=True)
-	cinta=DefaultCintaSerializer(many=True)
+	skill=DefaultSkillSerializer(many=True, read_only=True)
+	batch=DefaultBatchSerializer(many=True, read_only=True)
+	cinta=DefaultCintaSerializer(many=True, read_only=True)
+
+	skill_id = serializers.PrimaryKeyRelatedField(many=True, write_only=True,queryset=Skill.objects.all(), source='skill')
+	batch_id = serializers.PrimaryKeyRelatedField(many=True, write_only=True, queryset=Batch.objects.all(), source='batch')
+	cinta_id = serializers.PrimaryKeyRelatedField(many=True, write_only=True, queryset=Cinta.objects.all(), source='cinta')
 
 	class Meta:
 		model=MyUser
-		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'date_added', 
-		'profile_pic', 'is_validated','phone_number', 'job', 'description', 'skill', 
-		'batch', 'cinta', 'user_type']
+		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'date_added', 'profile_pic', 'is_validated','phone_number', 'job', 'description', 'skill', 'skill_id', 'batch', 'batch_id', 'cinta', 'cinta_id', 'user_type']
+		write_only_fields = ['skill_id', 'batch_id', 'cinta_id'	]
+		read_only_fields = ['id', 'date_added', 'skill', 'batch', 'cinta']
 
 #Event Serializer
 class EventSerializer(serializers.ModelSerializer):
 	"""EVENT object list and create object with relations"""
 
 	added_by=DefaultMyUserSerializer(many=False, read_only=True)
-	skill=DefaultSkillSerializer(many=True, read_only=True)
+	skill=DefaultSkillSerializer(many=True)
 
-	added_by_id=serializers.PrimaryKeyRelatedField(write_only=True, 
+
+	added_by_id=serializers.PrimaryKeyRelatedField(write_only=True,
 		queryset=MyUser.objects.all(), source='added_by')
 
 	class Meta:
@@ -149,7 +154,7 @@ class FileSerializer(serializers.ModelSerializer):
 	"""FILE object list and create object with relations"""
 
 	added_by=DefaultMyUserSerializer(many=False, read_only=True)
-	skill=DefaultSkillSerializer(many=True, read_only=True)
+	skill=DefaultSkillSerializer(many=True)
 
 	added_by_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=MyUser.objects.all(), 
 		source='added_by')
