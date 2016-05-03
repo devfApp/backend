@@ -75,7 +75,7 @@ class MyUserView(generics.ListCreateAPIView):
 	"""
 
 	queryset = User.objects.all()
-	serializer_class = MyUserSerializer
+	serializer_class = DefaultUserSerializer
 
 class MyUserDetailView(generics.RetrieveUpdateDestroyAPIView):
 	"""
@@ -83,7 +83,7 @@ class MyUserDetailView(generics.RetrieveUpdateDestroyAPIView):
 	"""
 
 	queryset = User.objects.all()
-	serializer_class = MyUserSerializer
+	serializer_class = UserSerializer
 
 #User views
 class UserRegisterView(generics.CreateAPIView):

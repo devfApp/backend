@@ -19,12 +19,6 @@ class DefaultEventSerializer(serializers.ModelSerializer):
 			'event_link',]
 
 class DefaultUserSerializer(serializers.ModelSerializer):
-	"""Default list for USER without its relations"""
-	class Meta:
-		model = User
-		fields = ['id', 'username', 'first_name', 'last_name', 'email']
-
-class DefaultMyUserSerializer(serializers.ModelSerializer):
 	"""Default list for MYUSER without its relations"""
 
 	class Meta:
@@ -88,12 +82,12 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
 
 #MyUser Serializer
-class MyUserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
 	"""MYUSER object list and create object with relations"""
 
-	skill=DefaultSkillSerializer(many=True, read_only=True)
-	batch=DefaultBatchSerializer(many=True, read_only=True)
-	belt=DefaultBeltSerializer(many=True, read_only=True)
+	skills = DefaultSkillSerializer(many=True, read_only=True)
+	batches = DefaultBatchSerializer(many=True, read_only=True)
+	belts = DefaultBeltSerializer(many=True, read_only=True)
 
 	skill_id = serializers.PrimaryKeyRelatedField(many=True, write_only=True,queryset=Skill.objects.all(), source='skills')
 	batch_id = serializers.PrimaryKeyRelatedField(many=True, write_only=True, queryset=Batch.objects.all(), source='batches')
@@ -101,15 +95,15 @@ class MyUserSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model=User
-		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'date_added', 'profile_pic', 'is_validated','phone_number', 'job', 'description', 'skill', 'skill_id', 'batch', 'batch_id', 'belt', 'belt_id', 'user_type']
+		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'date_added', 'profile_pic', 'is_validated','phone_number', 'job', 'description', 'skills', 'skill_id', 'batches', 'batch_id', 'belts', 'belt_id', 'user_type']
 		write_only_fields = ['skill_id', 'batch_id', 'belt_id'	]
-		read_only_fields = ['id', 'date_added', 'skill', 'batch', 'belt']
+		read_only_fields = ['id', 'date_added', 'skills', 'batches', 'belts']
 
 #Event Serializer
 class EventSerializer(serializers.ModelSerializer):
 	"""EVENT object list and create object with relations"""
 
-	added_by=DefaultMyUserSerializer(many=False, read_only=True)
+	added_by=DefaultUserSerializer(many=False, read_only=True)
 	skill=DefaultSkillSerializer(many=True)
 
 
@@ -128,7 +122,7 @@ class SkillSerializer(serializers.ModelSerializer):
 	"""SKILL object list and create object with relations"""
 
 	events=DefaultEventSerializer(many=True, read_only=True)
-	users=DefaultMyUserSerializer(many=True, read_only=True)
+	users=DefaultUserSerializer(many=True, read_only=True)
 	shared_files=DefaultFileSerializer(many=True, read_only=True)
 
 	class Meta:
@@ -140,7 +134,7 @@ class SkillSerializer(serializers.ModelSerializer):
 class BatchSerializer(serializers.ModelSerializer):
 	"""BATCH object list and create object with relations"""
 
-	users = DefaultMyUserSerializer(many=True, read_only=True)
+	users = DefaultUserSerializer(many=True, read_only=True)
 
 	class Meta:
 		model=Batch
@@ -151,7 +145,7 @@ class BatchSerializer(serializers.ModelSerializer):
 class FileSerializer(serializers.ModelSerializer):
 	"""FILE object list and create object with relations"""
 
-	added_by=DefaultMyUserSerializer(many=False, read_only=True)
+	added_by=DefaultUserSerializer(many=False, read_only=True)
 	skill=DefaultSkillSerializer(many=True)
 
 	added_by_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=User.objects.all(),
@@ -167,7 +161,7 @@ class FileSerializer(serializers.ModelSerializer):
 #Answer Serializer
 class AnswerSerializer(serializers.ModelSerializer):
 
-	my_user = DefaultMyUserSerializer(many=False, read_only=True)
+	my_user = DefaultUserSerializer(many=False, read_only=True)
 	challenge = DefaultChallengeSerializer(many=False, read_only=True)
 
 	my_user_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=User.objects.all(),
@@ -183,7 +177,7 @@ class AnswerSerializer(serializers.ModelSerializer):
 
 #Challenge Serializer
 class ChallengeSerializer(serializers.ModelSerializer):
-	sensei = DefaultMyUserSerializer(many=False, read_only=True)
+	sensei = DefaultUserSerializer(many=False, read_only=True)
 	answers = DefaultAnswerSerializer(many=True, read_only=True)
 	batch = DefaultBatchSerializer(many=False, read_only=True)
 
@@ -200,7 +194,7 @@ class ChallengeSerializer(serializers.ModelSerializer):
 		write_only_fields=['sensei_id', 'batch_id']
 
 class BeltSerializer(serializers.ModelSerializer):
-	users = DefaultMyUserSerializer(many=True, read_only=True)
+	users = DefaultUserSerializer(many=True, read_only=True)
 
 	class Meta:
 		model=Belt
