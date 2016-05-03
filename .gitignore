@@ -69,9 +69,10 @@ venv2.7/
 djDevf/settings/keys.py
 
 #database
-djDevf/db.sqlite3
+db.sqlite3
 
 .idea/
 
+keys.py
 #migrations
 #migrations/
