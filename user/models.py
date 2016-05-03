@@ -2,7 +2,8 @@ from django.core import validators
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 from django.core.validators import RegexValidator
-    
+from django.core.mail import send_mail
+
 # Create your models here.
 
 USER_TYPE = [('alumni' ,'alumni'),('sensei', 'sensei'), ('admin', 'admin')]
@@ -48,17 +49,16 @@ class Batch(models.Model):
         return self.batch
     
 
-class MyUser(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
-        verbose_name = "MyUser"
-        verbose_name_plural = "MyUser"
+        verbose_name = "User"
+        verbose_name_plural = "Users"
 
     #Relations
-    # user = models.OneToOneField(User, related_name='user')
-    batch = models.ManyToManyField(Batch, related_name='my_users')
-    cinta = models.ManyToManyField(Cinta, related_name='my_users')
-    skill = models.ManyToManyField(Skill, blank=True, related_name='my_users')
+    batch = models.ManyToManyField(Batch, related_name='users')
+    cinta = models.ManyToManyField(Cinta, related_name='users')
+    skill = models.ManyToManyField(Skill, blank=True, related_name='users')
 
     #USER ATTRIBUTES
     username = models.CharField(
@@ -91,11 +91,6 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         default=True,
         help_text='Designates whether this user should be treated as active. ' 'Unselect this instead of deleting accounts.',
     )
-
-    objects = UserManager()
-
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email', ]
     date_added = models.DateTimeField(auto_now_add=True)
 
     #Attributes
@@ -106,13 +101,25 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     description = models.TextField(blank=True, max_length=140)
     user_type = models.CharField(blank=True ,max_length=50, choices=USER_TYPE)
 
-    def __str__(self):
-        return self.username
+    objects = UserManager()
 
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email', ]
 
     def get_full_name(self):
-        pass
-
+        """
+        Returns the first_name plus the last_name, with a space in between.
+        """
+        full_name = '%s %s' % (self.first_name, self.last_name)
+        return full_name.strip().encode("utf8")
 
     def get_short_name(self):
-        pass
+        "Returns the short name for the user."
+        return self.first_name.encode("utf8")
+
+    def email_user(self, subject, message, from_email=None):
+        """
+        Sends an email to this User.
+        """
+        send_mail(subject, message, from_email, [self.email])
+

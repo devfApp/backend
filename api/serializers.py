@@ -1,9 +1,7 @@
 # -*- encoding:utf-8 -*-
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from user.models import *
 from community_event.models import *
-from user.models import *
 from shared_files.models import *
 from sensei_stuff.models import *
 
@@ -30,7 +28,7 @@ class DefaultMyUserSerializer(serializers.ModelSerializer):
 	"""Default list for MYUSER without its relations"""
 
 	class Meta:
-		model = MyUser
+		model = User
 		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'date_added', 
 		'profile_pic', 'is_validated', 'phone_number', 'job', 'description', 'user_type']
 
@@ -74,12 +72,12 @@ Aquí comienzan los seriealizers con ATRIBUTOS y RELACIONES
 
 class UserRegisterSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = MyUser
+		model = User
 		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password']
 		write_only_fields=['password']
 
 	def create(self, validate_data):
-		my_user = MyUser.objects.create(
+		my_user = User.objects.create(
 				username = validate_data['username'],
 				email = validate_data['email'],
 				first_name = validate_data['first_name'],
@@ -102,7 +100,7 @@ class MyUserSerializer(serializers.ModelSerializer):
 	cinta_id = serializers.PrimaryKeyRelatedField(many=True, write_only=True, queryset=Cinta.objects.all(), source='cinta')
 
 	class Meta:
-		model=MyUser
+		model=User
 		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'date_added', 'profile_pic', 'is_validated','phone_number', 'job', 'description', 'skill', 'skill_id', 'batch', 'batch_id', 'cinta', 'cinta_id', 'user_type']
 		write_only_fields = ['skill_id', 'batch_id', 'cinta_id'	]
 		read_only_fields = ['id', 'date_added', 'skill', 'batch', 'cinta']
@@ -116,7 +114,7 @@ class EventSerializer(serializers.ModelSerializer):
 
 
 	added_by_id=serializers.PrimaryKeyRelatedField(write_only=True,
-		queryset=MyUser.objects.all(), source='added_by')
+												   queryset=User.objects.all(), source='added_by')
 
 	class Meta:
 		model = Event
@@ -130,24 +128,24 @@ class SkillSerializer(serializers.ModelSerializer):
 	"""SKILL object list and create object with relations"""
 
 	events=DefaultEventSerializer(many=True, read_only=True)
-	my_users=DefaultMyUserSerializer(many=True, read_only=True)
+	users=DefaultMyUserSerializer(many=True, read_only=True)
 	shared_files=DefaultFileSerializer(many=True, read_only=True)
 
 	class Meta:
 		model=Skill
-		fields=['id', 'skill', 'events', 'my_users', 'shared_files']
-		read_only_fields=['events', 'my_users']
+		fields=['id', 'skill', 'events', 'users', 'shared_files']
+		read_only_fields=['events', 'users']
 
 #Batch Serializers
 class BatchSerializer(serializers.ModelSerializer):
 	"""BATCH object list and create object with relations"""
 
-	my_users = DefaultMyUserSerializer(many=True, read_only=True)
+	users = DefaultMyUserSerializer(many=True, read_only=True)
 
 	class Meta:
 		model=Batch
-		fields=['id', 'batch', 'my_users']
-		read_only_fields=['my_users']
+		fields=['id', 'batch', 'users']
+		read_only_fields=['users']
 
 #File Serializer
 class FileSerializer(serializers.ModelSerializer):
@@ -156,8 +154,8 @@ class FileSerializer(serializers.ModelSerializer):
 	added_by=DefaultMyUserSerializer(many=False, read_only=True)
 	skill=DefaultSkillSerializer(many=True)
 
-	added_by_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=MyUser.objects.all(), 
-		source='added_by')
+	added_by_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=User.objects.all(),
+												   source='added_by')
 
 	class Meta:
 		model=File
@@ -172,8 +170,8 @@ class AnswerSerializer(serializers.ModelSerializer):
 	my_user = DefaultMyUserSerializer(many=False, read_only=True)
 	challenge = DefaultChallengeSerializer(many=False, read_only=True)
 
-	my_user_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=MyUser.objects.all(),
-		source='user')
+	my_user_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=User.objects.all(),
+												  source='user')
 	challenge_id=serializers.PrimaryKeyRelatedField(write_only=True, 
 		queryset=Challenge.objects.all(), source='challenge')
 
@@ -189,8 +187,8 @@ class ChallengeSerializer(serializers.ModelSerializer):
 	answers = DefaultAnswerSerializer(many=True, read_only=True)
 	batch = DefaultBatchSerializer(many=False, read_only=True)
 
-	sensei_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=MyUser.objects.all(), 
-		source='sensei')
+	sensei_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=User.objects.all(),
+												 source='sensei')
 	batch_id=serializers.PrimaryKeyRelatedField(write_only=True, queryset=Batch.objects.all(),
 		source='batch')
 
@@ -202,11 +200,11 @@ class ChallengeSerializer(serializers.ModelSerializer):
 		write_only_fields=['sensei_id', 'batch_id']
 
 class CintaSerializer(serializers.ModelSerializer):
-	my_users = DefaultMyUserSerializer(many=True, read_only=True)
+	users = DefaultMyUserSerializer(many=True, read_only=True)
 
 	class Meta:
 		model=Cinta
-		fields=['id', 'is_active', 'name', 'my_users']
+		fields=['id', 'is_active', 'name', 'users']
 
 def jwt_response_payload_handler(token, my_user=None, request=None):
     return {

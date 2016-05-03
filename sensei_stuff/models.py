@@ -10,7 +10,7 @@ class Challenge(models.Model):
         verbose_name_plural = "Challenges"
 
     #Relations
-    sensei = models.ForeignKey(MyUser, related_name='sensei')
+    sensei = models.ForeignKey(User, related_name='sensei')
     batch = models.ForeignKey(Batch)
 
     #Attributes
@@ -28,7 +28,7 @@ class Answer(models.Model):
         verbose_name = "Answer"
         verbose_name_plural = "Answers"
     #Relations
-    user=models.ForeignKey(MyUser, related_name='my_user')
+    user=models.ForeignKey(User, related_name='my_user')
     challenge=models.ForeignKey(Challenge, related_name='answers')
 
     #Attributes

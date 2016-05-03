@@ -9,7 +9,7 @@ class Event(models.Model):
         verbose_name_plural = "Events"
 
     #Relations
-    added_by = models.ForeignKey(MyUser, blank=False)
+    added_by = models.ForeignKey(User, blank=False)
     skill = models.ManyToManyField(Skill, blank=True, related_name='events')
 
     #Attributes
@@ -21,5 +21,5 @@ class Event(models.Model):
     event_link = models.URLField(blank=False)
 
     def __str__(self):
-    	return self.title
+        return self.title
     

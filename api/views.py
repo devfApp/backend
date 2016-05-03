@@ -74,7 +74,7 @@ class MyUserView(generics.ListCreateAPIView):
 	MYUSER object list and create object
 	"""
 
-	queryset = MyUser.objects.all()
+	queryset = User.objects.all()
 	serializer_class = MyUserSerializer
 
 class MyUserDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -82,7 +82,7 @@ class MyUserDetailView(generics.RetrieveUpdateDestroyAPIView):
 	MYUSER object view and edit
 	"""
 
-	queryset = MyUser.objects.all()
+	queryset = User.objects.all()
 	serializer_class = MyUserSerializer
 
 #User views

@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'community_event',
     'shared_files',
     'sensei_stuff',
-    'notification',
 
     #API
     'rest_framework',
@@ -63,6 +62,7 @@ MIDDLEWARE_CLASSES = [
 ]
 
 ROOT_URLCONF = 'djDevf.urls'
+AUTH_USER_MODEL = 'user.User'
 
 TEMPLATES = [
     {
