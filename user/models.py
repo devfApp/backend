@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 from django.core.validators import RegexValidator
 from django.core.mail import send_mail, mail_admins
+from django.utils.http import urlquote
 
 # Create your models here.
 
@@ -126,3 +127,5 @@ class User(AbstractBaseUser, PermissionsMixin):
     def email_admins(self):
         mail_admins('New user', 'User {0} has registered, do you want to validate him?'.format(self.get_full_name()), fail_silently=False)
 
+    def get_absolute_url(self):
+        return "/users/%s/" % urlquote(self.pk)
