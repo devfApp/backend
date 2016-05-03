@@ -87,7 +87,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='cinta',
-            field=models.ManyToManyField(related_name='users', to='user.Cinta'),
+            field=models.ManyToManyField(related_name='users', to='user.models.Belt'),
         ),
         migrations.AddField(
             model_name='user',

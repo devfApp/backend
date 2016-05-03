@@ -202,7 +202,7 @@ class CintaView(generics.ListCreateAPIView):
 	CINTA object list and create object
 	"""
 
-	queryset=Cinta.objects.all()
+	queryset=Belt.objects.all()
 	serializer_class=CintaSerializer
 
 class CintaDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -210,5 +210,5 @@ class CintaDetailView(generics.RetrieveUpdateDestroyAPIView):
 	CINTA object view and edit
 	"""
 
-	queryset=Cinta.objects.all()
+	queryset=Belt.objects.all()
 	serializer_class=CintaSerializer

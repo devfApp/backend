@@ -8,11 +8,11 @@ from django.core.mail import send_mail
 
 USER_TYPE = [('alumni' ,'alumni'),('sensei', 'sensei'), ('admin', 'admin')]
 
-class Cinta(models.Model):
+class Belt(models.Model):
 
     class Meta:
-        verbose_name = "Cinta"
-        verbose_name_plural = "Cintas"
+        verbose_name = "Belt"
+        verbose_name_plural = "Belt"
 
     #Relations
 
@@ -31,7 +31,7 @@ class Skill(models.Model):
         verbose_name_plural = "Skills"
 
     #Attributes
-    skill = models.CharField(max_length=20)
+    skill = models.CharField(max_length=20, unique=True, blank=False)
 
     def __str__(self):
         return self.skill
@@ -40,10 +40,10 @@ class Batch(models.Model):
 
     class Meta:
         verbose_name = "Batch"
-        verbose_name_plural = "Batchs"
+        verbose_name_plural = "Batches"
 
     #Attributes
-    batch = models.CharField(max_length=10)
+    batch = models.CharField(max_length=10, unique=True, blank=False)
 
     def __str__(self):
         return self.batch
@@ -56,9 +56,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = "Users"
 
     #Relations
-    batch = models.ManyToManyField(Batch, related_name='users')
-    cinta = models.ManyToManyField(Cinta, related_name='users')
-    skill = models.ManyToManyField(Skill, blank=True, related_name='users')
+    batches = models.ManyToManyField(Batch, related_name='users')
+    belts = models.ManyToManyField(Belt, related_name='users')
+    skills = models.ManyToManyField(Skill, blank=True, related_name='users')
 
     #USER ATTRIBUTES
     username = models.CharField(

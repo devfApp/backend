@@ -61,9 +61,9 @@ class DefaultAnswerSerializer(serializers.ModelSerializer):
 		model=Answer
 		fields=['id', 'file_link']
 
-class DefaultCintaSerializer(serializers.ModelSerializer):
+class DefaultBeltSerializer(serializers.ModelSerializer):
 	class Meta:
-		model=Cinta
+		model=Belt
 		fields=['id', 'is_active', 'name']
 
 """
@@ -93,17 +93,17 @@ class MyUserSerializer(serializers.ModelSerializer):
 
 	skill=DefaultSkillSerializer(many=True, read_only=True)
 	batch=DefaultBatchSerializer(many=True, read_only=True)
-	cinta=DefaultCintaSerializer(many=True, read_only=True)
+	belt=DefaultBeltSerializer(many=True, read_only=True)
 
-	skill_id = serializers.PrimaryKeyRelatedField(many=True, write_only=True,queryset=Skill.objects.all(), source='skill')
-	batch_id = serializers.PrimaryKeyRelatedField(many=True, write_only=True, queryset=Batch.objects.all(), source='batch')
-	cinta_id = serializers.PrimaryKeyRelatedField(many=True, write_only=True, queryset=Cinta.objects.all(), source='cinta')
+	skill_id = serializers.PrimaryKeyRelatedField(many=True, write_only=True,queryset=Skill.objects.all(), source='skills')
+	batch_id = serializers.PrimaryKeyRelatedField(many=True, write_only=True, queryset=Batch.objects.all(), source='batches')
+	belt_id = serializers.PrimaryKeyRelatedField(many=True, write_only=True, queryset=Belt.objects.all(), source='belts')
 
 	class Meta:
 		model=User
-		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'date_added', 'profile_pic', 'is_validated','phone_number', 'job', 'description', 'skill', 'skill_id', 'batch', 'batch_id', 'cinta', 'cinta_id', 'user_type']
-		write_only_fields = ['skill_id', 'batch_id', 'cinta_id'	]
-		read_only_fields = ['id', 'date_added', 'skill', 'batch', 'cinta']
+		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'date_added', 'profile_pic', 'is_validated','phone_number', 'job', 'description', 'skill', 'skill_id', 'batch', 'batch_id', 'belt', 'belt_id', 'user_type']
+		write_only_fields = ['skill_id', 'batch_id', 'belt_id'	]
+		read_only_fields = ['id', 'date_added', 'skill', 'batch', 'belt']
 
 #Event Serializer
 class EventSerializer(serializers.ModelSerializer):
@@ -199,11 +199,11 @@ class ChallengeSerializer(serializers.ModelSerializer):
 		read_only_fields=['answers', 'sensei', 'batch']
 		write_only_fields=['sensei_id', 'batch_id']
 
-class CintaSerializer(serializers.ModelSerializer):
+class BeltSerializer(serializers.ModelSerializer):
 	users = DefaultMyUserSerializer(many=True, read_only=True)
 
 	class Meta:
-		model=Cinta
+		model=Belt
 		fields=['id', 'is_active', 'name', 'users']
 
 def jwt_response_payload_handler(token, my_user=None, request=None):
