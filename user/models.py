@@ -2,7 +2,7 @@ from django.core import validators
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 from django.core.validators import RegexValidator
-from django.core.mail import send_mail
+from django.core.mail import send_mail, mail_admins
 
 # Create your models here.
 
@@ -47,7 +47,7 @@ class Batch(models.Model):
 
     def __str__(self):
         return self.batch
-    
+
 
 class User(AbstractBaseUser, PermissionsMixin):
 
@@ -122,4 +122,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         Sends an email to this User.
         """
         send_mail(subject, message, from_email, [self.email])
+
+    def email_admins(self):
+        mail_admins('New user', 'User {0} has registered, do you want to validate him?'.format(self.get_full_name()), fail_silently=False)
 

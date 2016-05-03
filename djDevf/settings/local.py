@@ -5,6 +5,8 @@ DEBUG = True
 
 SECRET_KEY = '(#o@k!5a1$)*jrfevryxict9#di2ujhyal9v3w+xc5=4hg$k)$'
 
+ADMINS = (('Inaki', 'icaboalo@gmail.com'), )
+
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 

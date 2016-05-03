@@ -96,16 +96,6 @@ class UserRegisterView(generics.CreateAPIView):
     serializer_class=UserRegisterSerializer
     permission_classes = [permissions.AllowAny]
 
-    def signup(self):
-        # form to sign up is valid
-
-        # now send them an email with a link in order to activate their user account
-        #   you can also use an html django email template to send the email instead
-        #   if you want
-        send_mail('Register', 'Success', 'admin@devf.mx', ['icaboalo@gmail.com'], fail_silently=False)
-
-        return HttpResponseRedirect('register_success_view')
-
 # File views
 class FileView(generics.ListCreateAPIView):
     """

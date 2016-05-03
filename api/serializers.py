@@ -78,7 +78,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
                 last_name = validate_data['last_name'])
         my_user.set_password(validate_data['password'])
         my_user.save()
-        send_mail('Register', 'Success', 'admin@devf.mx', [my_user.email], fail_silently=False)
+        my_user.email_user('R', 'S', 'admin@devf.mx')
+        my_user.email_admins()
         return my_user
 
 
