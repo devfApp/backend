@@ -197,18 +197,18 @@ class AnswerDetailView(generics.RetrieveUpdateDestroyAPIView):
 	queryset=Answer.objects.all()
 	serializer_class=AnswerSerializer
 
-class CintaView(generics.ListCreateAPIView):
+class BeltView(generics.ListCreateAPIView):
 	"""
 	CINTA object list and create object
 	"""
 
 	queryset=Belt.objects.all()
-	serializer_class=CintaSerializer
+	serializer_class=BeltSerializer
 
-class CintaDetailView(generics.RetrieveUpdateDestroyAPIView):
+class BeltDetailView(generics.RetrieveUpdateDestroyAPIView):
 	"""
 	CINTA object view and edit
 	"""
 
 	queryset=Belt.objects.all()
-	serializer_class=CintaSerializer
+	serializer_class=BeltSerializer
