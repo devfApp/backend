@@ -64,6 +64,9 @@ MIDDLEWARE_CLASSES = [
 ROOT_URLCONF = 'djDevf.urls'
 AUTH_USER_MODEL = 'user.User'
 
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

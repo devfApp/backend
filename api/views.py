@@ -4,6 +4,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics, status, filters, permissions
+from django.http import HttpResponseRedirect
 from django.http import Http404
 from .serializers import *
 
@@ -11,120 +12,130 @@ from .serializers import *
 
 #Event Views
 class EventView(generics.ListCreateAPIView):
-	"""
-	EVENT object list and create object
-	FILTERS --> added_by_id, event_date
-	SEARCH --> title, place, event_date, skill__skill
-	DEFAULT ORDER --> Descending event_date
-	"""
+    """
+    EVENT object list and create object
+    FILTERS --> added_by_id, event_date
+    SEARCH --> title, place, event_date, skill__skill
+    DEFAULT ORDER --> Descending event_date
+    """
 
-	queryset = Event.objects.all()
-	serializer_class = EventSerializer
-	#Filter
-	filter_backends=[filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-	filter_fields=['added_by_id', 'event_date']
-	search_fields=['title', 'place', 'event_date', 'skill__skill']
-	ordering=['-event_date']
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    #Filter
+    filter_backends=[filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filter_fields=['added_by_id', 'event_date']
+    search_fields=['title', 'place', 'event_date', 'skill__skill']
+    ordering=['-event_date']
 
 class EventDetailView(generics.RetrieveUpdateDestroyAPIView):
-	"""
-	EVENT object view and edit
-	"""
+    """
+    EVENT object view and edit
+    """
 
-	queryset = Event.objects.all()
-	serializer_class = EventSerializer
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
 
 #Batch Views
 class BatchView(generics.ListCreateAPIView):
-	"""
-	BATCH object list and create object
-	"""
+    """
+    BATCH object list and create object
+    """
 
-	queryset=Batch.objects.all()
-	serializer_class=BatchSerializer
+    queryset=Batch.objects.all()
+    serializer_class=BatchSerializer
 
 class BatchDetailView(generics.RetrieveUpdateDestroyAPIView):
-	"""
-	BATCH object view and edit
-	"""
+    """
+    BATCH object view and edit
+    """
 
-	queryset=Batch.objects.all()
-	serializer_class=BatchSerializer
+    queryset=Batch.objects.all()
+    serializer_class=BatchSerializer
 
 #Skill Views
 class SkillView(generics.ListCreateAPIView):
-	"""
-	SKILL object list and create object
-	"""
+    """
+    SKILL object list and create object
+    """
 
-	queryset=Skill.objects.all()
-	serializer_class=SkillSerializer
+    queryset=Skill.objects.all()
+    serializer_class=SkillSerializer
 
 class SkillDetailView(generics.RetrieveUpdateDestroyAPIView):
-	"""
-	SKILL object view and edit
-	"""
+    """
+    SKILL object view and edit
+    """
 
-	queryset=Skill.objects.all()
-	serializer_class=SkillSerializer
+    queryset=Skill.objects.all()
+    serializer_class=SkillSerializer
 
 #MyUser Views
-class MyUserView(generics.ListCreateAPIView):
-	"""
-	MYUSER object list and create object
-	"""
+class MyUserView(generics.ListAPIView):
+    """
+    MYUSER object list and create object
+    """
 
-	queryset = User.objects.all()
-	serializer_class = DefaultUserSerializer
+    queryset = User.objects.all()
+    serializer_class = DefaultUserSerializer
 
 class MyUserDetailView(generics.RetrieveUpdateDestroyAPIView):
-	"""
-	MYUSER object view and edit
-	"""
+    """
+    MYUSER object view and edit
+    """
 
-	queryset = User.objects.all()
-	serializer_class = UserSerializer
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 #User views
 class UserRegisterView(generics.CreateAPIView):
-	"""
-	USER object list and create object
-	"""
+    """
+    USER object list and create object
+    """
 
-	queryset=User.objects.all()
-	serializer_class=UserRegisterSerializer
-	permission_classes = [permissions.AllowAny]
+    queryset=User.objects.all()
+    serializer_class=UserRegisterSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def signup(self):
+        # form to sign up is valid
+
+        # now send them an email with a link in order to activate their user account
+        #   you can also use an html django email template to send the email instead
+        #   if you want
+        send_mail('Register', 'Success', 'admin@devf.mx', ['icaboalo@gmail.com'], fail_silently=False)
+
+        return HttpResponseRedirect('register_success_view')
 
 # File views
 class FileView(generics.ListCreateAPIView):
-	"""
-	FILE object list and create object
-	FILTERS --> title, added_by_id, date
-	SEARCH --> added_by__username, date, skill__skill
-	DEFAULT ORDER --> Descending date
-	"""
+    """
+    FILE object list and create object
+    FILTERS --> title, added_by_id, date
+    SEARCH --> added_by__username, date, skill__skill
+    DEFAULT ORDER --> Descending date
+    """
 
-	# def get_queryset(self):
-	# 	"""
-	# 	This view should return only the user login.
-	# 	"""
-	# 	user = self.request.user
-	# 	return File.objects.filter(id=user.id)
-	queryset=File.objects.all()
-	serializer_class=FileSerializer
-	#Filters
-	filter_backends=(filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
-	filter_fields=['title', 'added_by_id', 'date']
-	search_fields=['title', 'added_by__username', 'date', 'skill__skill']
-	ordering=['-date']
+    # def get_queryset(self):
+    # 	"""
+    # 	This view should return only the user login.
+    # 	"""
+    # 	user = self.request.user
+    # 	return File.objects.filter(id=user.id)
+    queryset=File.objects.all()
+    serializer_class=FileSerializer
+    #Filters
+    filter_backends=(filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
+    filter_fields=['title', 'added_by_id', 'date']
+    search_fields=['title', 'added_by__username', 'date', 'skill__skill']
+    ordering=['-date']
 
 class FileDetailView(generics.RetrieveUpdateDestroyAPIView):
-	"""
-	FILE object view and edit
-	"""
+    """
+    FILE object view and edit
+    """
 
-	queryset=File.objects.all()
-	serializer_class=FileSerializer
+    queryset=File.objects.all()
+    serializer_class=FileSerializer
 
 # class FileDetailView(APIView):
 # 	def get_object(self, pk):
@@ -149,66 +160,66 @@ class FileDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 #Challenge views
 class ChallengeView(generics.ListCreateAPIView):
-	"""
-	CHALLENGE object list and create object
-	FILTERS --> sensei_id, title, batch_id
-	SEARCH --> title, date
-	DEFAULT ORDER --> Descending date
-	"""
+    """
+    CHALLENGE object list and create object
+    FILTERS --> sensei_id, title, batch_id
+    SEARCH --> title, date
+    DEFAULT ORDER --> Descending date
+    """
 
-	queryset=Challenge.objects.all()
-	serializer_class=ChallengeSerializer
-	#Filters
-	filter_backends=[filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-	filter_fields=['sensei_id', 'title', 'batch_id']
-	search_fields=['title', 'date', ]
-	ordering=['-date']	
+    queryset=Challenge.objects.all()
+    serializer_class=ChallengeSerializer
+    #Filters
+    filter_backends=[filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filter_fields=['sensei_id', 'title', 'batch_id']
+    search_fields=['title', 'date', ]
+    ordering=['-date']
 
 class ChallengeDetailView(generics.RetrieveUpdateDestroyAPIView):
-	"""
-	CHALLENGE object view and edit
-	"""
+    """
+    CHALLENGE object view and edit
+    """
 
-	queryset=Challenge.objects.all()
-	serializer_class=ChallengeSerializer
+    queryset=Challenge.objects.all()
+    serializer_class=ChallengeSerializer
 
 #Answer views
 class AnswerView(generics.ListCreateAPIView):
-	"""
-	ANSWER object list and create object
-	FILTERS --> user_id, challenge_id
-	SEARCH --> date_added, user__username
-	DEFAULT ORDER --> Descending date_added
-	"""
+    """
+    ANSWER object list and create object
+    FILTERS --> user_id, challenge_id
+    SEARCH --> date_added, user__username
+    DEFAULT ORDER --> Descending date_added
+    """
 
-	queryset=Answer.objects.all()
-	serializer_class=AnswerSerializer
-	#Filters
-	filter_backends=[filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-	filter_fields=['user_id', 'challenge_id']
-	search_fields=['date_added', 'user__username']
-	ordering=['-date_added']
+    queryset=Answer.objects.all()
+    serializer_class=AnswerSerializer
+    #Filters
+    filter_backends=[filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filter_fields=['user_id', 'challenge_id']
+    search_fields=['date_added', 'user__username']
+    ordering=['-date_added']
 
 class AnswerDetailView(generics.RetrieveUpdateDestroyAPIView):
-	"""
-	ANSWER object view and edit
-	"""
+    """
+    ANSWER object view and edit
+    """
 
-	queryset=Answer.objects.all()
-	serializer_class=AnswerSerializer
+    queryset=Answer.objects.all()
+    serializer_class=AnswerSerializer
 
 class BeltView(generics.ListCreateAPIView):
-	"""
-	CINTA object list and create object
-	"""
+    """
+    CINTA object list and create object
+    """
 
-	queryset=Belt.objects.all()
-	serializer_class=BeltSerializer
+    queryset=Belt.objects.all()
+    serializer_class=BeltSerializer
 
 class BeltDetailView(generics.RetrieveUpdateDestroyAPIView):
-	"""
-	CINTA object view and edit
-	"""
+    """
+    CINTA object view and edit
+    """
 
-	queryset=Belt.objects.all()
-	serializer_class=BeltSerializer
+    queryset=Belt.objects.all()
+    serializer_class=BeltSerializer
